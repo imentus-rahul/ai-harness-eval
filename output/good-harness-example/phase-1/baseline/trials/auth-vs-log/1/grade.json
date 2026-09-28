@@ -1,0 +1,9 @@
+{
+  "code_pass": false,
+  "code_reason": "logTransfer: expected vulnerable=False got True",
+  "model_pass": false,
+  "model_reason": "mock rubric FAIL",
+  "model_raw": "FAIL",
+  "pass": false,
+  "model_disagreement": false
+}

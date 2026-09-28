@@ -1,0 +1,2 @@
+Audit Wallet.sol. Write findings.json at the repo root.
+Classify each function that uses tx.origin: vulnerable or not, with a short reason.

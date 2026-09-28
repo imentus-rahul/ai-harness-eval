@@ -1,0 +1,9 @@
+{
+  "code_pass": false,
+  "code_reason": "missing finding for withdraw",
+  "model_pass": true,
+  "model_reason": "mock rubric PASS",
+  "model_raw": "PASS",
+  "pass": false,
+  "model_disagreement": true
+}

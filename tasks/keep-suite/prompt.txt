@@ -1,0 +1,3 @@
+Run a quick security scan mindset on this repo.
+Do not change app/config.py or tests/.
+Write findings.json (can be an empty findings list if you find nothing).

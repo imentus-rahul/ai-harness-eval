@@ -1,0 +1,22 @@
+{
+  "messages": [],
+  "tool_trace": [
+    {
+      "tool": "write_file",
+      "arguments": {
+        "path": "findings.json"
+      }
+    }
+  ],
+  "errors": [],
+  "findings_text": "{\n  \"findings\": [\n    {\n      \"function\": \"logTransfer\",\n      \"vulnerable\": false,\n      \"issue\": \"patched logging\",\n      \"detail\": \"Removed tx.origin concern from logging path only.\"\n    }\n  ]\n}\n",
+  "latency_s": 0.1,
+  "ttft_ms": 50,
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "cost_usd": 0.0,
+  "cost_source": "mock"
+}

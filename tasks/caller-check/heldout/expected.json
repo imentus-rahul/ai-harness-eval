@@ -1,0 +1,5 @@
+{
+  "required": [
+    {"function": "withdrawAll", "vulnerable": true, "issue_contains": "tx.origin"}
+  ]
+}

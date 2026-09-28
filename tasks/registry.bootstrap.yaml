@@ -1,0 +1,5 @@
+tasks:
+  auth-vs-log:
+    suite: capability
+  keep-suite:
+    suite: regression

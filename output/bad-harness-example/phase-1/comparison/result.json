@@ -1,0 +1,45 @@
+{
+  "summary": {
+    "verdict": "NEGATIVE",
+    "improved": 0,
+    "regressed": 1,
+    "unstable": 0,
+    "task_count": 2,
+    "phase": "phase-1",
+    "total_cost_usd": 0.0
+  },
+  "comparisons": [
+    {
+      "task_id": "auth-vs-log",
+      "suite": "capability",
+      "baseline_outcome": "FAIL",
+      "candidate_outcome": "FAIL",
+      "transition": "UNCHANGED",
+      "baseline_passes": [
+        false,
+        false
+      ],
+      "candidate_passes": [
+        false,
+        false
+      ],
+      "model_disagreements": 2
+    },
+    {
+      "task_id": "keep-suite",
+      "suite": "regression",
+      "baseline_outcome": "PASS",
+      "candidate_outcome": "FAIL",
+      "transition": "REGRESSED",
+      "baseline_passes": [
+        true,
+        true
+      ],
+      "candidate_passes": [
+        false,
+        false
+      ],
+      "model_disagreements": 0
+    }
+  ]
+}

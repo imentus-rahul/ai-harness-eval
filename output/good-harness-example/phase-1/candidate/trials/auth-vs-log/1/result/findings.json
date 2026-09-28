@@ -1,0 +1,16 @@
+{
+  "findings": [
+    {
+      "function": "withdraw",
+      "vulnerable": true,
+      "issue": "tx.origin auth",
+      "detail": "tx.origin gates withdraw."
+    },
+    {
+      "function": "logTransfer",
+      "vulnerable": false,
+      "issue": "logging only",
+      "detail": "Event logging, not authorization."
+    }
+  ]
+}

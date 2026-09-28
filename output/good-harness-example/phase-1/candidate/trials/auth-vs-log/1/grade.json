@@ -1,0 +1,9 @@
+{
+  "code_pass": true,
+  "code_reason": "held-out labels match",
+  "model_pass": true,
+  "model_reason": "mock rubric PASS",
+  "model_raw": "PASS",
+  "pass": true,
+  "model_disagreement": false
+}

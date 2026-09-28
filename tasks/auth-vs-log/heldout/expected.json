@@ -1,0 +1,6 @@
+{
+  "required": [
+    {"function": "withdraw", "vulnerable": true},
+    {"function": "logTransfer", "vulnerable": false}
+  ]
+}

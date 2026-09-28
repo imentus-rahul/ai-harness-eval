@@ -1,0 +1,10 @@
+{
+  "findings": [
+    {
+      "function": "withdrawAll",
+      "vulnerable": false,
+      "issue": "remediated",
+      "detail": "Patched without documenting tx.origin risk."
+    }
+  ]
+}

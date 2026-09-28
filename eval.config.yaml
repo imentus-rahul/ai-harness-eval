@@ -1,0 +1,5 @@
+# Harness evaluation run configuration (repo root).
+# CLI --scenario overrides scenario when passed.
+scenario: both
+# good-harness-example uses good-candidate; bad-harness-example uses bad-candidate.
+candidate: good-candidate

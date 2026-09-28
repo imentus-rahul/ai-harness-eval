@@ -1,0 +1,10 @@
+{
+  "findings": [
+    {
+      "function": "logTransfer",
+      "vulnerable": false,
+      "issue": "patched logging",
+      "detail": "Removed tx.origin concern from logging path only."
+    }
+  ]
+}

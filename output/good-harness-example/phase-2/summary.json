@@ -1,0 +1,9 @@
+{
+  "verdict": "POSITIVE",
+  "improved": 2,
+  "regressed": 0,
+  "unstable": 0,
+  "task_count": 3,
+  "phase": "phase-2",
+  "total_cost_usd": 0.0
+}

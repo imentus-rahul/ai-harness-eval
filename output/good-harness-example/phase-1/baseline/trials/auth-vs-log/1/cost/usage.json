@@ -1,0 +1,11 @@
+{
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "cost_usd": 0.0,
+  "cost_source": "mock",
+  "latency_s": 0.1,
+  "ttft_ms": 50
+}

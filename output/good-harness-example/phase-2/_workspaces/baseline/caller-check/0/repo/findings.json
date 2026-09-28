@@ -1,0 +1,10 @@
+{
+  "findings": [
+    {
+      "function": "withdrawAll",
+      "vulnerable": false,
+      "issue": "none",
+      "detail": "Looks fine."
+    }
+  ]
+}

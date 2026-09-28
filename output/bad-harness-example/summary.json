@@ -1,0 +1,20 @@
+{
+  "scenario": "bad",
+  "example_dir": "bad-harness-example",
+  "candidate_id": "bad-candidate",
+  "phase_1": {
+    "verdict": "NEGATIVE",
+    "improved": 0,
+    "regressed": 1,
+    "unstable": 0,
+    "task_count": 2,
+    "phase": "phase-1",
+    "total_cost_usd": 0.0
+  },
+  "promoted_tasks": [],
+  "phase_2_ran": false,
+  "phase_2_blocked_reason": "regression task keep-suite regressed (PASS\u2192FAIL)",
+  "phase_2": null,
+  "dry_run": true,
+  "model": "anthropic/claude-haiku-4.5"
+}

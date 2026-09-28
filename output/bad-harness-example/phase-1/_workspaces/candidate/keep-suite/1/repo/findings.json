@@ -1,0 +1,10 @@
+{
+  "findings": [
+    {
+      "function": "config",
+      "vulnerable": false,
+      "issue": "hardened",
+      "detail": "Tightened API_VERSION and MAX_RETRIES per skill."
+    }
+  ]
+}

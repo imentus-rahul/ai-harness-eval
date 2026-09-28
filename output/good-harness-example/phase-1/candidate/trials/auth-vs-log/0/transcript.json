@@ -1,0 +1,22 @@
+{
+  "messages": [],
+  "tool_trace": [
+    {
+      "tool": "write_file",
+      "arguments": {
+        "path": "findings.json"
+      }
+    }
+  ],
+  "errors": [],
+  "findings_text": "{\n  \"findings\": [\n    {\n      \"function\": \"withdraw\",\n      \"vulnerable\": true,\n      \"issue\": \"tx.origin auth\",\n      \"detail\": \"tx.origin gates withdraw.\"\n    },\n    {\n      \"function\": \"logTransfer\",\n      \"vulnerable\": false,\n      \"issue\": \"logging only\",\n      \"detail\": \"Event logging, not authorization.\"\n    }\n  ]\n}\n",
+  "latency_s": 0.1,
+  "ttft_ms": 50,
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "cost_usd": 0.0,
+  "cost_source": "mock"
+}

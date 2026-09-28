@@ -1,0 +1,30 @@
+{
+  "scenario": "good",
+  "example_dir": "good-harness-example",
+  "candidate_id": "good-candidate",
+  "phase_1": {
+    "verdict": "POSITIVE",
+    "improved": 1,
+    "regressed": 0,
+    "unstable": 0,
+    "task_count": 2,
+    "phase": "phase-1",
+    "total_cost_usd": 0.0
+  },
+  "promoted_tasks": [
+    "auth-vs-log"
+  ],
+  "phase_2_ran": true,
+  "phase_2_blocked_reason": null,
+  "phase_2": {
+    "verdict": "POSITIVE",
+    "improved": 2,
+    "regressed": 0,
+    "unstable": 0,
+    "task_count": 3,
+    "phase": "phase-2",
+    "total_cost_usd": 0.0
+  },
+  "dry_run": true,
+  "model": "anthropic/claude-haiku-4.5"
+}
