@@ -47,9 +47,7 @@ def resolve_scenarios(
 ) -> list[str]:
     raw = (cli_scenario or config.get("scenario") or SCENARIO_BOTH).strip().lower()
     if raw == SCENARIO_BOTH:
-        if dry_run:
-            return [SCENARIO_GOOD, SCENARIO_BAD]
-        return [SCENARIO_GOOD]
+        return [SCENARIO_GOOD, SCENARIO_BAD]
     if raw in (SCENARIO_GOOD, SCENARIO_BAD):
         return [raw]
     return [SCENARIO_GOOD]

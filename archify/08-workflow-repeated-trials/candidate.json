@@ -1,57 +1,360 @@
 {
-  "schema_version": 2,
-  "diagram_type": "workflow",
-  "meta": {
-    "title": "08 · Repeated trials → outcome → transition (bad scenario, keep-suite)",
-    "output": "archify/08-workflow-repeated-trials/repeated-trials.html",
-    "quality_profile": "showcase",
-    "legend": { "mode": "hidden" },
-    "repository": { "url": "https://github.com/imentus-rahul/ai-harness-eval.git", "link_mode": "local-only", "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb" }
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "08 \u00b7 Repeated trials \u2192 outcome \u2192 transition (bad scenario, keep-suite)",
+  "output": "archify/08-workflow-repeated-trials/repeated-trials.html",
+  "quality_profile": "showcase",
+  "legend": {
+   "mode": "hidden"
   },
-  "lanes": [
-    { "id": "base", "label": "Baseline arm · trial['pass'] per rep" },
-    { "id": "cand", "label": "Candidate arm (bad-candidate) · trial['pass'] per rep" },
-    { "id": "pair", "label": "Paired comparison · compare_task()" },
-    { "id": "edge", "label": "Other outcomes the same code can produce", "variant": "exception" }
-  ],
-  "phases": [
-    { "id": "ph-r", "label": "REPS = 2", "fromCol": 0, "toCol": 1 },
-    { "id": "ph-o", "label": "outcome_from_reps()", "fromCol": 2, "toCol": 2, "variant": "emphasis" },
-    { "id": "ph-t", "label": "transition() + summarise()", "fromCol": 3, "toCol": 5, "variant": "security" }
-  ],
-  "mainPath": ["b0", "b1", "bout", "tr", "res", "verdict"],
-  "nodes": [
-    { "id": "b0", "lane": "base", "col": 0, "type": "backend", "label": "rep 0 · PASS", "sublabel": "pytest: 2 passed", "width": 160, "sources": [{ "path": "output/bad-harness-example/phase-1/baseline/trials/keep-suite/0/grade.json", "line": 1, "end_line": 5 }] },
-    { "id": "b1", "lane": "base", "col": 1, "type": "backend", "label": "rep 1 · PASS", "sublabel": "pytest: 2 passed", "width": 160, "sources": [{ "path": "output/bad-harness-example/phase-1/baseline/trials/keep-suite/1/grade.json", "line": 1, "end_line": 5 }] },
-    { "id": "bout", "lane": "base", "col": 2, "type": "backend", "label": "Baseline = PASS", "sublabel": "all([True, True])", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 8, "end_line": 15 }] },
-
-    { "id": "c0", "lane": "cand", "col": 0, "type": "security", "label": "rep 0 · FAIL", "sublabel": "assert 0 == 3", "width": 160, "sources": [{ "path": "output/bad-harness-example/phase-1/candidate/trials/keep-suite/0/grade.json", "line": 1, "end_line": 5 }] },
-    { "id": "c1", "lane": "cand", "col": 1, "type": "security", "label": "rep 1 · FAIL", "sublabel": "API_VERSION 99.0.0", "width": 160, "sources": [{ "path": "output/bad-harness-example/phase-1/candidate/trials/keep-suite/1/grade.json", "line": 1, "end_line": 5 }] },
-    { "id": "cout", "lane": "cand", "col": 2, "type": "security", "label": "Candidate = FAIL", "sublabel": "not any([False, False])", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 13, "end_line": 14 }] },
-
-    { "id": "tr", "lane": "pair", "col": 3, "type": "backend", "label": "transition()", "sublabel": "(PASS, FAIL)", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 18, "end_line": 27 }] },
-    { "id": "res", "lane": "pair", "col": 4, "type": "security", "label": "REGRESSED", "sublabel": "suite: regression", "tag": "blocks Phase 2", "width": 160, "sources": [{ "path": "output/bad-harness-example/phase-1/comparison/result.json", "line": 28, "end_line": 42 }] },
-    { "id": "verdict", "lane": "pair", "col": 5, "type": "security", "label": "Phase verdict", "sublabel": "summarise() → NEGATIVE", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 51, "end_line": 67 }, { "path": "output/bad-harness-example/phase-1/summary.json", "line": 1, "end_line": 9 }] },
-
-    { "id": "unst", "lane": "edge", "col": 3, "type": "messagebus", "label": "UNSTABLE", "sublabel": "either arm mixed, e.g. [T, F]", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 19, "end_line": 20 }] },
-    { "id": "impr", "lane": "edge", "col": 4, "type": "backend", "label": "IMPROVED", "sublabel": "FAIL → PASS", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 21, "end_line": 22 }] },
-    { "id": "same", "lane": "edge", "col": 5, "type": "frontend", "label": "UNCHANGED", "sublabel": "same outcome both arms", "width": 160, "sources": [{ "path": "src/eval/compare.py", "line": 25, "end_line": 27 }] }
-  ],
-  "edges": [
-    { "from": "b0", "to": "b1", "role": "main" },
-    { "from": "b1", "to": "bout", "role": "main" },
-    { "from": "c0", "to": "c1", "role": "main", "variant": "security" },
-    { "from": "c1", "to": "cout", "role": "main", "variant": "security" },
-    { "from": "bout", "to": "tr", "role": "main" },
-    { "from": "cout", "to": "tr", "role": "branch", "variant": "security" },
-    { "from": "tr", "to": "res", "role": "main", "variant": "security" },
-    { "from": "res", "to": "verdict", "role": "main", "variant": "security" },
-    { "from": "tr", "to": "unst", "role": "branch", "variant": "dashed", "label": "checked first" }
-  ],
-  "cards": [
-    { "dot": "cyan", "title": "outcome_from_reps(passes)", "items": ["[] → UNMEASURED", "all True → PASS", "all False → FAIL", "anything mixed → UNSTABLE"] },
-    { "dot": "rose", "title": "transition(baseline, candidate) — in order", "items": ["either UNSTABLE → UNSTABLE", "FAIL → PASS → IMPROVED", "PASS → FAIL → REGRESSED", "equal → UNCHANGED, otherwise MIXED (e.g. UNMEASURED)"] },
-    { "dot": "amber", "title": "Why repetitions matter", "items": ["LLM output is stochastic (temperature 0.2): one run can be luck", "UNSTABLE is never rounded into IMPROVED or REGRESSED", "n = 2 detects flakiness but is NOT statistical significance"] },
-    { "dot": "violet", "title": "summarise() verdict", "items": ["any REGRESSED → NEGATIVE", "else any IMPROVED → POSITIVE", "else INCONCLUSIVE"] }
-  ]
+  "repository": {
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "base",
+   "label": "Baseline arm \u00b7 trial['pass'] per rep"
+  },
+  {
+   "id": "cand",
+   "label": "Candidate arm (bad-candidate) \u00b7 trial['pass'] per rep"
+  },
+  {
+   "id": "pair",
+   "label": "Paired comparison \u00b7 compare_task()"
+  },
+  {
+   "id": "edge",
+   "label": "Other outcomes the same code can produce",
+   "variant": "exception"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-r",
+   "label": "REPS = 2",
+   "fromCol": 0,
+   "toCol": 1
+  },
+  {
+   "id": "ph-o",
+   "label": "outcome_from_reps()",
+   "fromCol": 2,
+   "toCol": 2,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-t",
+   "label": "transition() + summarise()",
+   "fromCol": 3,
+   "toCol": 5,
+   "variant": "security"
+  }
+ ],
+ "mainPath": [
+  "b0",
+  "b1",
+  "bout",
+  "tr",
+  "res",
+  "verdict"
+ ],
+ "nodes": [
+  {
+   "id": "b0",
+   "lane": "base",
+   "col": 0,
+   "type": "backend",
+   "label": "rep 0 \u00b7 PASS",
+   "sublabel": "pytest: 2 passed",
+   "width": 160,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/baseline/trials/keep-suite/0/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "b1",
+   "lane": "base",
+   "col": 1,
+   "type": "backend",
+   "label": "rep 1 \u00b7 PASS",
+   "sublabel": "pytest: 2 passed",
+   "width": 160,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/baseline/trials/keep-suite/1/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "bout",
+   "lane": "base",
+   "col": 2,
+   "type": "backend",
+   "label": "Baseline = PASS",
+   "sublabel": "all([True, True])",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 8,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "c0",
+   "lane": "cand",
+   "col": 0,
+   "type": "security",
+   "label": "rep 0 \u00b7 FAIL",
+   "sublabel": "assert 0 == 3",
+   "width": 160,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/candidate/trials/keep-suite/0/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "c1",
+   "lane": "cand",
+   "col": 1,
+   "type": "security",
+   "label": "rep 1 \u00b7 FAIL",
+   "sublabel": "API_VERSION 99.0.0",
+   "width": 160,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/candidate/trials/keep-suite/1/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "cout",
+   "lane": "cand",
+   "col": 2,
+   "type": "security",
+   "label": "Candidate = FAIL",
+   "sublabel": "not any([False, False])",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 8,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "tr",
+   "lane": "pair",
+   "col": 3,
+   "type": "backend",
+   "label": "transition()",
+   "sublabel": "(PASS, FAIL)",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 18,
+     "end_line": 29
+    }
+   ]
+  },
+  {
+   "id": "res",
+   "lane": "pair",
+   "col": 4,
+   "type": "security",
+   "label": "REGRESSED",
+   "sublabel": "suite: regression",
+   "tag": "blocks Phase 2",
+   "width": 160,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/comparison/result.json",
+     "line": 28,
+     "end_line": 42
+    }
+   ]
+  },
+  {
+   "id": "verdict",
+   "lane": "pair",
+   "col": 5,
+   "type": "security",
+   "label": "Phase verdict",
+   "sublabel": "summarise() \u2192 NEGATIVE",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 51,
+     "end_line": 69
+    },
+    {
+     "path": "output/bad-harness-example/phase-1/summary.json",
+     "line": 1,
+     "end_line": 9
+    }
+   ]
+  },
+  {
+   "id": "unst",
+   "lane": "edge",
+   "col": 3,
+   "type": "messagebus",
+   "label": "UNSTABLE",
+   "sublabel": "either arm mixed, e.g. [T, F]",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 18,
+     "end_line": 29
+    }
+   ]
+  },
+  {
+   "id": "impr",
+   "lane": "edge",
+   "col": 4,
+   "type": "backend",
+   "label": "IMPROVED",
+   "sublabel": "FAIL \u2192 PASS",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 18,
+     "end_line": 29
+    }
+   ]
+  },
+  {
+   "id": "same",
+   "lane": "edge",
+   "col": 5,
+   "type": "frontend",
+   "label": "UNCHANGED",
+   "sublabel": "same outcome both arms",
+   "width": 160,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 18,
+     "end_line": 29
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "b0",
+   "to": "b1",
+   "role": "main"
+  },
+  {
+   "from": "b1",
+   "to": "bout",
+   "role": "main"
+  },
+  {
+   "from": "c0",
+   "to": "c1",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "c1",
+   "to": "cout",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "bout",
+   "to": "tr",
+   "role": "main"
+  },
+  {
+   "from": "cout",
+   "to": "tr",
+   "role": "branch",
+   "variant": "security"
+  },
+  {
+   "from": "tr",
+   "to": "res",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "res",
+   "to": "verdict",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "tr",
+   "to": "unst",
+   "role": "branch",
+   "variant": "dashed",
+   "label": "checked first"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "outcome_from_reps(passes)",
+   "items": [
+    "[] \u2192 UNMEASURED",
+    "all True \u2192 PASS",
+    "all False \u2192 FAIL",
+    "anything mixed \u2192 UNSTABLE"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "transition(baseline, candidate) \u2014 in order",
+   "items": [
+    "either UNSTABLE \u2192 UNSTABLE",
+    "FAIL \u2192 PASS \u2192 IMPROVED",
+    "PASS \u2192 FAIL \u2192 REGRESSED",
+    "equal \u2192 UNCHANGED, otherwise MIXED (e.g. UNMEASURED)"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Why repetitions matter",
+   "items": [
+    "LLM output is stochastic (temperature 0.2): one run can be luck",
+    "UNSTABLE is never rounded into IMPROVED or REGRESSED",
+    "n = 2 detects flakiness but is NOT statistical significance"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "summarise() verdict",
+   "items": [
+    "any REGRESSED \u2192 NEGATIVE",
+    "else any IMPROVED \u2192 POSITIVE",
+    "else INCONCLUSIVE"
+   ]
+  }
+ ]
 }

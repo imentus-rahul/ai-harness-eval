@@ -1,10 +1,16 @@
 {
   "findings": [
     {
+      "function": "deposit",
+      "vulnerable": true,
+      "issue": "msg.sender usage",
+      "detail": "Uses msg.sender to track balances, which is standard but flagged per instructions."
+    },
+    {
       "function": "withdrawAll",
-      "vulnerable": false,
-      "issue": "none",
-      "detail": "Looks fine."
+      "vulnerable": true,
+      "issue": "tx.origin usage",
+      "detail": "Uses tx.origin in a require statement for access control, which is vulnerable to phishing attacks."
     }
   ]
 }

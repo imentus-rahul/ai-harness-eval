@@ -1,9 +1,14 @@
 {
-  "code_pass": false,
-  "code_reason": "withdrawAll: expected vulnerable=True got False",
+  "code_pass": true,
+  "code_reason": "held-out labels match",
   "model_pass": false,
-  "model_reason": "mock rubric FAIL",
-  "model_raw": "FAIL",
-  "pass": false,
-  "model_disagreement": false
+  "model_reason": "FAIL: The agent incorrectly flags msg.sender as a vulnerability and fails to distinguish between logging and authorization uses of tx.origin.",
+  "model_raw": "FAIL: The agent incorrectly flags msg.sender as a vulnerability and fails to distinguish between logging and authorization uses of tx.origin.",
+  "model_grade_cost_usd": 0.000173,
+  "model_grade_tokens": {
+    "input": 190,
+    "output": 26
+  },
+  "pass": true,
+  "model_disagreement": true
 }

@@ -1,12 +1,13 @@
 {
   "summary": {
     "verdict": "POSITIVE",
-    "improved": 2,
+    "improved": 1,
     "regressed": 0,
     "unstable": 0,
     "task_count": 3,
     "phase": "phase-2",
-    "total_cost_usd": 0.0
+    "total_cost_usd": 0.0296,
+    "api_error_trials": 0
   },
   "comparisons": [
     {
@@ -28,18 +29,18 @@
     {
       "task_id": "caller-check",
       "suite": "capability",
-      "baseline_outcome": "FAIL",
+      "baseline_outcome": "PASS",
       "candidate_outcome": "PASS",
-      "transition": "IMPROVED",
+      "transition": "UNCHANGED",
       "baseline_passes": [
-        false,
-        false
+        true,
+        true
       ],
       "candidate_passes": [
         true,
         true
       ],
-      "model_disagreements": 2
+      "model_disagreements": 0
     },
     {
       "task_id": "keep-suite",

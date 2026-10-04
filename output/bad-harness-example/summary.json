@@ -9,12 +9,15 @@
     "unstable": 0,
     "task_count": 2,
     "phase": "phase-1",
-    "total_cost_usd": 0.0
+    "total_cost_usd": 0.0327,
+    "api_error_trials": 0
   },
   "promoted_tasks": [],
   "phase_2_ran": false,
   "phase_2_blocked_reason": "regression task keep-suite regressed (PASS\u2192FAIL)",
   "phase_2": null,
-  "dry_run": true,
-  "model": "anthropic/claude-haiku-4.5"
+  "dry_run": false,
+  "model": "google/gemini-3-flash-preview",
+  "openrouter_credits_depleted": false,
+  "openrouter_depletion_reason": null
 }

@@ -4,13 +4,13 @@
       "function": "withdraw",
       "vulnerable": true,
       "issue": "tx.origin auth",
-      "detail": "tx.origin gates withdraw."
+      "detail": "The withdraw function uses tx.origin for authorization, which is vulnerable to phishing attacks where a malicious contract calls the wallet on behalf of the owner."
     },
     {
       "function": "logTransfer",
       "vulnerable": false,
       "issue": "logging only",
-      "detail": "Event logging, not authorization."
+      "detail": "tx.origin is used only for logging an event and does not gate any sensitive functionality or funds."
     }
   ]
 }

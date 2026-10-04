@@ -1,54 +1,353 @@
 {
-  "schema_version": 2,
-  "diagram_type": "workflow",
-  "meta": {
-    "title": "07 · Graders — code decides PASS, model and human are evidence",
-    "output": "archify/07-workflow-graders/graders.html",
-    "quality_profile": "showcase",
-    "repository": { "url": "https://github.com/imentus-rahul/ai-harness-eval.git", "link_mode": "local-only", "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb" }
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "07 \u00b7 Graders \u2014 code decides PASS, model and human are evidence",
+  "output": "archify/07-workflow-graders/graders.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "disp",
+   "label": "Dispatch \u00b7 grade_trial()"
   },
-  "lanes": [
-    { "id": "disp", "label": "Dispatch · grade_trial()" },
-    { "id": "py", "label": "Code grader · visible pytest suite" },
-    { "id": "ho", "label": "Code grader · held-out expected.json" },
-    { "id": "model", "label": "Model rubric grader (evidence only)" },
-    { "id": "human", "label": "Human calibration (not a gate)", "variant": "exception" }
-  ],
-  "mainPath": ["ws", "gt", "gc", "pytest", "codepass", "verdict"],
-  "nodes": [
-    { "id": "ws", "lane": "disp", "col": 0, "type": "database", "label": "Trial workspace", "sublabel": "findings.json + files", "width": 198, "sources": [{ "path": "src/eval/run.py", "line": 86, "end_line": 97 }] },
-    { "id": "gt", "lane": "disp", "col": 1, "type": "backend", "label": "grade_trial()", "sublabel": "code first, model optional", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 135, "end_line": 148 }] },
-    { "id": "verdict", "lane": "disp", "col": 5, "type": "security", "label": "Trial PASS/FAIL", "sublabel": "out['pass'] = code_pass", "tag": "authoritative", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 158, "end_line": 162 }] },
-
-    { "id": "gc", "lane": "py", "col": 2, "type": "backend", "label": "grade_code()", "sublabel": "branch on task_id", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 88, "end_line": 94 }] },
-    { "id": "pytest", "lane": "py", "col": 3, "type": "backend", "label": "keep-suite", "sublabel": "pytest -q tests (subprocess)", "tag": "exit 0 → PASS", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 76, "end_line": 85 }, { "path": "tasks/keep-suite/repo/tests/test_suite.py", "line": 1, "end_line": 10 }] },
-    { "id": "codepass", "lane": "py", "col": 4, "type": "security", "label": "code_pass", "sublabel": "+ code_reason", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 94, "end_line": 94 }] },
-
-    { "id": "auth", "lane": "ho", "col": 3, "type": "backend", "label": "auth-vs-log · caller-check", "sublabel": "grade_auth_expected()", "tag": "per-function labels", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 52, "end_line": 73 }, { "path": "tasks/caller-check/heldout/expected.json", "line": 1, "end_line": 5 }] },
-
-    { "id": "rubric", "lane": "model", "col": 2, "type": "external", "label": "grade_model_rubric()", "sublabel": "rubric_chat(), temperature 0", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 97, "end_line": 132 }, { "path": "src/eval/openrouter.py", "line": 114, "end_line": 148 }] },
-    { "id": "mpass", "lane": "model", "col": 3, "type": "external", "label": "model_pass", "sublabel": "reply starts with PASS?", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 125, "end_line": 131 }] },
-    { "id": "disagree", "lane": "model", "col": 4, "type": "messagebus", "label": "model_disagreement", "sublabel": "model_pass ≠ code_pass", "width": 198, "sources": [{ "path": "src/eval/graders.py", "line": 159, "end_line": 159 }, { "path": "src/eval/run.py", "line": 251, "end_line": 262 }] },
-
-    { "id": "spot", "lane": "human", "col": 4, "type": "frontend", "label": "human_spot_check.md", "sublabel": "3 Y/N questions per run", "width": 198, "sources": [{ "path": "src/eval/report.py", "line": 58, "end_line": 78 }] }
-  ],
-  "edges": [
-    { "from": "ws", "to": "gt", "role": "main" },
-    { "from": "gt", "to": "gc", "role": "main", "label": "always" },
-    { "from": "gc", "to": "pytest", "role": "main", "label": "keep-suite" },
-    { "from": "gc", "to": "auth", "role": "branch", "label": "else" },
-    { "from": "pytest", "to": "codepass", "role": "main" },
-    { "from": "auth", "to": "codepass", "role": "branch" },
-    { "from": "codepass", "to": "verdict", "role": "main", "label": "pass", "variant": "emphasis" },
-    { "from": "gt", "to": "rubric", "role": "branch", "label": "auth tasks", "variant": "dashed" },
-    { "from": "rubric", "to": "mpass", "role": "main", "variant": "dashed" },
-    { "from": "mpass", "to": "disagree", "role": "main", "variant": "dashed" },
-    { "from": "disagree", "to": "spot", "role": "branch", "variant": "dashed", "label": "review" }
-  ],
-  "cards": [
-    { "dot": "rose", "title": "The authoritative line", "items": ["graders.py L158: out[\"pass\"] = code[\"code_pass\"]", "model grader result ≠ authoritative trial PASS", "Comparison, promotion and the Phase 2 gate only read trial['pass']"] },
-    { "dot": "cyan", "title": "Held-out check (grade_auth_expected)", "items": ["For each required function: a finding must exist", "vulnerable (or classification) must equal the label", "caller-check also requires issue text containing 'tx.origin'", "expected.json lives in tasks/<id>/heldout/ — never copied to the workspace"] },
-    { "dot": "violet", "title": "Model rubric", "items": ["System: PASS only if findings separate authorization bugs from logging-only tx.origin", "Live: one OpenRouter call per capability trial (max_tokens 256)", "Dry-run: mock rubric PASSes iff logTransfer is marked not vulnerable"] },
-    { "dot": "amber", "title": "Disagreement observed in committed runs", "items": ["Bad candidate auth-vs-log: model PASS, code FAIL (×2) — rubric fooled", "Good candidate caller-check: model FAIL, code PASS (×2) — mock rubric checks logTransfer, absent in Vault.sol", "Both counted in model_disagreements; neither changed the verdict"] }
-  ]
+  {
+   "id": "py",
+   "label": "Code grader \u00b7 visible pytest suite"
+  },
+  {
+   "id": "ho",
+   "label": "Code grader \u00b7 held-out expected.json"
+  },
+  {
+   "id": "model",
+   "label": "Model rubric grader (evidence only)"
+  },
+  {
+   "id": "human",
+   "label": "Human calibration (not a gate)",
+   "variant": "exception"
+  }
+ ],
+ "mainPath": [
+  "ws",
+  "gt",
+  "gc",
+  "pytest",
+  "codepass",
+  "verdict"
+ ],
+ "nodes": [
+  {
+   "id": "ws",
+   "lane": "disp",
+   "col": 0,
+   "type": "database",
+   "label": "Trial workspace",
+   "sublabel": "findings.json + files",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 81,
+     "end_line": 86
+    }
+   ]
+  },
+  {
+   "id": "gt",
+   "lane": "disp",
+   "col": 1,
+   "type": "backend",
+   "label": "grade_trial()",
+   "sublabel": "code first, model optional",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 167
+    }
+   ]
+  },
+  {
+   "id": "verdict",
+   "lane": "disp",
+   "col": 5,
+   "type": "security",
+   "label": "Trial PASS/FAIL",
+   "sublabel": "out['pass'] = code_pass",
+   "tag": "authoritative",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 167
+    }
+   ]
+  },
+  {
+   "id": "gc",
+   "lane": "py",
+   "col": 2,
+   "type": "backend",
+   "label": "grade_code()",
+   "sublabel": "branch on task_id",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 88,
+     "end_line": 96
+    }
+   ]
+  },
+  {
+   "id": "pytest",
+   "lane": "py",
+   "col": 3,
+   "type": "backend",
+   "label": "keep-suite",
+   "sublabel": "pytest -q tests (subprocess)",
+   "tag": "exit 0 \u2192 PASS",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 76,
+     "end_line": 87
+    },
+    {
+     "path": "tasks/keep-suite/repo/tests/test_suite.py",
+     "line": 1,
+     "end_line": 6
+    }
+   ]
+  },
+  {
+   "id": "codepass",
+   "lane": "py",
+   "col": 4,
+   "type": "security",
+   "label": "code_pass",
+   "sublabel": "+ code_reason",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 88,
+     "end_line": 96
+    }
+   ]
+  },
+  {
+   "id": "auth",
+   "lane": "ho",
+   "col": 3,
+   "type": "backend",
+   "label": "auth-vs-log \u00b7 caller-check",
+   "sublabel": "grade_auth_expected()",
+   "tag": "per-function labels",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 52,
+     "end_line": 75
+    },
+    {
+     "path": "tasks/caller-check/heldout/expected.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "rubric",
+   "lane": "model",
+   "col": 2,
+   "type": "external",
+   "label": "grade_model_rubric()",
+   "sublabel": "rubric_chat(), temperature 0",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 97,
+     "end_line": 134
+    },
+    {
+     "path": "src/eval/openrouter.py",
+     "line": 72,
+     "end_line": 155
+    }
+   ]
+  },
+  {
+   "id": "mpass",
+   "lane": "model",
+   "col": 3,
+   "type": "external",
+   "label": "model_pass",
+   "sublabel": "reply starts with PASS?",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 97,
+     "end_line": 134
+    }
+   ]
+  },
+  {
+   "id": "disagree",
+   "lane": "model",
+   "col": 4,
+   "type": "messagebus",
+   "label": "model_disagreement",
+   "sublabel": "model_pass \u2260 code_pass",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 167
+    },
+    {
+     "path": "src/eval/run.py",
+     "line": 191,
+     "end_line": 308
+    }
+   ]
+  },
+  {
+   "id": "spot",
+   "lane": "human",
+   "col": 4,
+   "type": "frontend",
+   "label": "human_spot_check.md",
+   "sublabel": "3 Y/N questions per run",
+   "width": 198,
+   "sources": [
+    {
+     "path": "src/eval/report.py",
+     "line": 58,
+     "end_line": 78
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "ws",
+   "to": "gt",
+   "role": "main"
+  },
+  {
+   "from": "gt",
+   "to": "gc",
+   "role": "main",
+   "label": "always"
+  },
+  {
+   "from": "gc",
+   "to": "pytest",
+   "role": "main",
+   "label": "keep-suite"
+  },
+  {
+   "from": "gc",
+   "to": "auth",
+   "role": "branch",
+   "label": "else"
+  },
+  {
+   "from": "pytest",
+   "to": "codepass",
+   "role": "main"
+  },
+  {
+   "from": "auth",
+   "to": "codepass",
+   "role": "branch"
+  },
+  {
+   "from": "codepass",
+   "to": "verdict",
+   "role": "main",
+   "label": "pass",
+   "variant": "emphasis"
+  },
+  {
+   "from": "gt",
+   "to": "rubric",
+   "role": "branch",
+   "label": "auth tasks",
+   "variant": "dashed"
+  },
+  {
+   "from": "rubric",
+   "to": "mpass",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "mpass",
+   "to": "disagree",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "disagree",
+   "to": "spot",
+   "role": "branch",
+   "variant": "dashed",
+   "label": "review"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "rose",
+   "title": "The authoritative line",
+   "items": [
+    "graders.py L158: out[\"pass\"] = code[\"code_pass\"]",
+    "model grader result \u2260 authoritative trial PASS",
+    "Comparison, promotion and the Phase 2 gate only read trial['pass']"
+   ]
+  },
+  {
+   "dot": "cyan",
+   "title": "Held-out check (grade_auth_expected)",
+   "items": [
+    "For each required function: a finding must exist",
+    "vulnerable (or classification) must equal the label",
+    "caller-check also requires issue text containing 'tx.origin'",
+    "expected.json lives in tasks/<id>/heldout/ \u2014 never copied to the workspace"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "Model rubric",
+   "items": [
+    "System: PASS only if findings separate authorization bugs from logging-only tx.origin",
+    "Live: one OpenRouter call per capability trial (max_tokens 256)",
+    "Dry-run: mock rubric PASSes iff logTransfer is marked not vulnerable"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Disagreement observed in committed runs",
+   "items": [
+    "Bad candidate auth-vs-log: model PASS, code FAIL (\u00d72) \u2014 rubric fooled",
+    "Good candidate caller-check: model FAIL, code PASS (\u00d72) \u2014 mock rubric checks logTransfer, absent in Vault.sol",
+    "Both counted in model_disagreements; neither changed the verdict"
+   ]
+  }
+ ]
 }

@@ -1,55 +1,459 @@
 {
-  "schema_version": 2,
-  "diagram_type": "workflow",
-  "meta": {
-    "title": "06 · Baseline vs bad vs good harness — same task, one changed file",
-    "output": "archify/06-workflow-harness-arms/harness-arms.html",
-    "quality_profile": "showcase",
-    "legend": { "mode": "hidden" },
-    "repository": { "url": "https://github.com/imentus-rahul/ai-harness-eval.git", "link_mode": "local-only", "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb" }
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "06 \u00b7 Baseline vs bad vs good harness \u2014 same task, one changed file",
+  "output": "archify/06-workflow-harness-arms/harness-arms.html",
+  "quality_profile": "showcase",
+  "legend": {
+   "mode": "hidden"
   },
-  "lanes": [
-    { "id": "base", "label": "Baseline · harnesses/baseline/AGENTS.md" },
-    { "id": "good", "label": "Good candidate · harnesses/good-candidate/SKILL.md" },
-    { "id": "bad", "label": "Bad candidate · harnesses/bad-candidate/SKILL.md", "variant": "exception" }
-  ],
-  "phases": [
-    { "id": "ph-in", "label": "What the agent is told", "fromCol": 0, "toCol": 1 },
-    { "id": "ph-do", "label": "What it does (dry-run mocks)", "fromCol": 2, "toCol": 3, "variant": "emphasis" },
-    { "id": "ph-out", "label": "How graders score it", "fromCol": 4, "toCol": 5, "variant": "security" }
-  ],
-  "mainPath": ["g0", "g1", "g2", "g3", "g4", "g5"],
-  "nodes": [
-    { "id": "b0", "lane": "base", "col": 0, "type": "frontend", "label": "AGENTS.md", "sublabel": "JSON findings format", "width": 168, "sources": [{ "path": "harnesses/baseline/AGENTS.md", "line": 1, "end_line": 13 }] },
-    { "id": "b1", "lane": "base", "col": 1, "type": "frontend", "label": "Blanket rule", "sublabel": "any tx.origin = auth bug", "tag": "also msg.sender", "width": 168, "sources": [{ "path": "harnesses/baseline/AGENTS.md", "line": 15, "end_line": 16 }] },
-    { "id": "b2", "lane": "base", "col": 2, "type": "backend", "label": "Flags everything", "sublabel": "no role distinction", "width": 168 },
-    { "id": "b3", "lane": "base", "col": 3, "type": "database", "label": "auth-vs-log output", "sublabel": "withdraw T · logTransfer T", "tag": "false positive", "width": 168, "sources": [{ "path": "mocks/baseline/auth-vs-log/findings.json", "line": 1, "end_line": 16 }] },
-    { "id": "b4", "lane": "base", "col": 4, "type": "security", "label": "Code grader FAIL", "sublabel": "logTransfer expected false", "width": 168, "sources": [{ "path": "output/good-harness-example/phase-1/baseline/trials/auth-vs-log/0/grade.json", "line": 1, "end_line": 8 }] },
-    { "id": "b5", "lane": "base", "col": 5, "type": "backend", "label": "keep-suite PASS", "sublabel": "tests untouched", "width": 168, "sources": [{ "path": "mocks/baseline/keep-suite/findings.json", "line": 1, "end_line": 3 }] },
-
-    { "id": "g0", "lane": "good", "col": 0, "type": "frontend", "label": "good SKILL.md", "sublabel": "tx.origin triage skill", "width": 168, "sources": [{ "path": "harnesses/good-candidate/SKILL.md", "line": 1, "end_line": 3 }] },
-    { "id": "g1", "lane": "good", "col": 1, "type": "frontend", "label": "Triage by role", "sublabel": "vuln only when it gates auth", "tag": "logging ≠ finding", "width": 168, "sources": [{ "path": "harnesses/good-candidate/SKILL.md", "line": 5, "end_line": 12 }] },
-    { "id": "g2", "lane": "good", "col": 2, "type": "backend", "label": "Classifies by role", "sublabel": "gate vs telemetry", "width": 168 },
-    { "id": "g3", "lane": "good", "col": 3, "type": "database", "label": "auth-vs-log output", "sublabel": "withdraw T · logTransfer F", "width": 168, "sources": [{ "path": "mocks/good-candidate/auth-vs-log/findings.json", "line": 1, "end_line": 16 }] },
-    { "id": "g4", "lane": "good", "col": 4, "type": "backend", "label": "Code grader PASS", "sublabel": "held-out labels match", "width": 168, "sources": [{ "path": "output/good-harness-example/phase-1/candidate/trials/auth-vs-log/0/grade.json", "line": 1, "end_line": 8 }] },
-    { "id": "g5", "lane": "good", "col": 5, "type": "backend", "label": "keep-suite PASS", "sublabel": "tests untouched", "width": 168, "sources": [{ "path": "mocks/good-candidate/keep-suite/findings.json", "line": 1, "end_line": 3 }] },
-
-    { "id": "x0", "lane": "bad", "col": 0, "type": "frontend", "label": "bad SKILL.md", "sublabel": "strict remediation skill", "width": 168, "sources": [{ "path": "harnesses/bad-candidate/SKILL.md", "line": 1, "end_line": 3 }] },
-    { "id": "x1", "lane": "bad", "col": 1, "type": "security", "label": "Patch + harden", "sublabel": "remove tx.origin, bump config", "tag": "sounds safer", "width": 168, "sources": [{ "path": "harnesses/bad-candidate/SKILL.md", "line": 5, "end_line": 11 }] },
-    { "id": "x2", "lane": "bad", "col": 2, "type": "security", "label": "Edits, not audits", "sublabel": "changes files it should not", "width": 168 },
-    { "id": "x3", "lane": "bad", "col": 3, "type": "database", "label": "auth-vs-log output", "sublabel": "withdraw MISSING", "tag": "only logTransfer", "width": 168, "sources": [{ "path": "mocks/bad-candidate/auth-vs-log/findings.json", "line": 1, "end_line": 10 }] },
-    { "id": "x4", "lane": "bad", "col": 4, "type": "security", "label": "Code grader FAIL", "sublabel": "missing finding: withdraw", "width": 168, "sources": [{ "path": "output/bad-harness-example/phase-1/candidate/trials/auth-vs-log/0/grade.json", "line": 1, "end_line": 8 }] },
-    { "id": "x5", "lane": "bad", "col": 5, "type": "security", "label": "keep-suite FAIL", "sublabel": "config.py → 99.0.0 / 0", "tag": "pytest 2 failed", "width": 168, "sources": [{ "path": "mocks/bad-candidate/keep-suite/overlay/app/config.py", "line": 1, "end_line": 4 }] }
-  ],
-  "edges": [
-    { "from": "b0", "to": "b1", "role": "main" }, { "from": "b1", "to": "b2", "role": "main" }, { "from": "b2", "to": "b3", "role": "main" }, { "from": "b3", "to": "b4", "role": "main", "variant": "security" }, { "from": "b4", "to": "b5", "role": "main", "variant": "dashed" },
-    { "from": "g0", "to": "g1", "role": "main" }, { "from": "g1", "to": "g2", "role": "main" }, { "from": "g2", "to": "g3", "role": "main" }, { "from": "g3", "to": "g4", "role": "main", "variant": "emphasis" }, { "from": "g4", "to": "g5", "role": "main", "variant": "emphasis" },
-    { "from": "x0", "to": "x1", "role": "main" }, { "from": "x1", "to": "x2", "role": "main", "variant": "security" }, { "from": "x2", "to": "x3", "role": "main", "variant": "security" }, { "from": "x3", "to": "x4", "role": "main", "variant": "security" }, { "from": "x4", "to": "x5", "role": "main", "variant": "security" }
-  ],
-  "cards": [
-    { "dot": "slate", "title": "Held constant across all three arms", "items": ["Same task prompt, repo copy, model, tool set, agent loop", "Same graders and held-out answers", "Only copy_guidance() differs: AGENTS.md vs <candidate>/SKILL.md"] },
-    { "dot": "emerald", "title": "Good candidate: the behavioural change", "items": ["'Vulnerable only when tx.origin gates authorization'", "'Not a finding when tx.origin is used only for logging, events, or analytics'", "Fixes the baseline false positive without losing withdraw"] },
-    { "dot": "rose", "title": "Bad candidate: the behavioural change", "items": ["'Patch the contract to remove or replace it'", "'Harden application config… bump versions, tighten retry limits'", "Turns an auditor into an editor → misses withdraw, breaks keep-suite"] },
-    { "dot": "amber", "title": "Evidence source", "items": ["Outputs shown are the committed dry-run mocks (mocks/<arm>/<task>/)", "Live runs use the same graders; real model output may differ"] }
-  ]
+  "repository": {
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "base",
+   "label": "Baseline \u00b7 harnesses/baseline/AGENTS.md"
+  },
+  {
+   "id": "good",
+   "label": "Good candidate \u00b7 harnesses/good-candidate/SKILL.md"
+  },
+  {
+   "id": "bad",
+   "label": "Bad candidate \u00b7 harnesses/bad-candidate/SKILL.md",
+   "variant": "exception"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-in",
+   "label": "What the agent is told",
+   "fromCol": 0,
+   "toCol": 1
+  },
+  {
+   "id": "ph-do",
+   "label": "What it does (dry-run mocks)",
+   "fromCol": 2,
+   "toCol": 3,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-out",
+   "label": "How graders score it",
+   "fromCol": 4,
+   "toCol": 5,
+   "variant": "security"
+  }
+ ],
+ "mainPath": [
+  "g0",
+  "g1",
+  "g2",
+  "g3",
+  "g4",
+  "g5"
+ ],
+ "nodes": [
+  {
+   "id": "b0",
+   "lane": "base",
+   "col": 0,
+   "type": "frontend",
+   "label": "AGENTS.md",
+   "sublabel": "JSON findings format",
+   "width": 168,
+   "sources": [
+    {
+     "path": "harnesses/baseline/AGENTS.md",
+     "line": 1,
+     "end_line": 13
+    }
+   ]
+  },
+  {
+   "id": "b1",
+   "lane": "base",
+   "col": 1,
+   "type": "frontend",
+   "label": "Blanket rule",
+   "sublabel": "any tx.origin = auth bug",
+   "tag": "also msg.sender",
+   "width": 168,
+   "sources": [
+    {
+     "path": "harnesses/baseline/AGENTS.md",
+     "line": 15,
+     "end_line": 16
+    }
+   ]
+  },
+  {
+   "id": "b2",
+   "lane": "base",
+   "col": 2,
+   "type": "backend",
+   "label": "Flags everything",
+   "sublabel": "no role distinction",
+   "width": 168
+  },
+  {
+   "id": "b3",
+   "lane": "base",
+   "col": 3,
+   "type": "database",
+   "label": "auth-vs-log output",
+   "sublabel": "withdraw T \u00b7 logTransfer T",
+   "tag": "false positive",
+   "width": 168,
+   "sources": [
+    {
+     "path": "mocks/baseline/auth-vs-log/findings.json",
+     "line": 1,
+     "end_line": 16
+    }
+   ]
+  },
+  {
+   "id": "b4",
+   "lane": "base",
+   "col": 4,
+   "type": "security",
+   "label": "Code grader FAIL",
+   "sublabel": "logTransfer expected false",
+   "width": 168,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/baseline/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "b5",
+   "lane": "base",
+   "col": 5,
+   "type": "backend",
+   "label": "keep-suite PASS",
+   "sublabel": "tests untouched",
+   "width": 168,
+   "sources": [
+    {
+     "path": "mocks/baseline/keep-suite/findings.json",
+     "line": 1,
+     "end_line": 3
+    }
+   ]
+  },
+  {
+   "id": "g0",
+   "lane": "good",
+   "col": 0,
+   "type": "frontend",
+   "label": "good SKILL.md",
+   "sublabel": "tx.origin triage skill",
+   "width": 168,
+   "sources": [
+    {
+     "path": "harnesses/good-candidate/SKILL.md",
+     "line": 1,
+     "end_line": 3
+    }
+   ]
+  },
+  {
+   "id": "g1",
+   "lane": "good",
+   "col": 1,
+   "type": "frontend",
+   "label": "Triage by role",
+   "sublabel": "vuln only when it gates auth",
+   "tag": "logging \u2260 finding",
+   "width": 168,
+   "sources": [
+    {
+     "path": "harnesses/good-candidate/SKILL.md",
+     "line": 5,
+     "end_line": 12
+    }
+   ]
+  },
+  {
+   "id": "g2",
+   "lane": "good",
+   "col": 2,
+   "type": "backend",
+   "label": "Classifies by role",
+   "sublabel": "gate vs telemetry",
+   "width": 168
+  },
+  {
+   "id": "g3",
+   "lane": "good",
+   "col": 3,
+   "type": "database",
+   "label": "auth-vs-log output",
+   "sublabel": "withdraw T \u00b7 logTransfer F",
+   "width": 168,
+   "sources": [
+    {
+     "path": "mocks/good-candidate/auth-vs-log/findings.json",
+     "line": 1,
+     "end_line": 16
+    }
+   ]
+  },
+  {
+   "id": "g4",
+   "lane": "good",
+   "col": 4,
+   "type": "backend",
+   "label": "Code grader PASS",
+   "sublabel": "held-out labels match",
+   "width": 168,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/candidate/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "g5",
+   "lane": "good",
+   "col": 5,
+   "type": "backend",
+   "label": "keep-suite PASS",
+   "sublabel": "tests untouched",
+   "width": 168,
+   "sources": [
+    {
+     "path": "mocks/good-candidate/keep-suite/findings.json",
+     "line": 1,
+     "end_line": 3
+    }
+   ]
+  },
+  {
+   "id": "x0",
+   "lane": "bad",
+   "col": 0,
+   "type": "frontend",
+   "label": "bad SKILL.md",
+   "sublabel": "strict remediation skill",
+   "width": 168,
+   "sources": [
+    {
+     "path": "harnesses/bad-candidate/SKILL.md",
+     "line": 1,
+     "end_line": 3
+    }
+   ]
+  },
+  {
+   "id": "x1",
+   "lane": "bad",
+   "col": 1,
+   "type": "security",
+   "label": "Patch + harden",
+   "sublabel": "remove tx.origin, bump config",
+   "tag": "sounds safer",
+   "width": 168,
+   "sources": [
+    {
+     "path": "harnesses/bad-candidate/SKILL.md",
+     "line": 5,
+     "end_line": 11
+    }
+   ]
+  },
+  {
+   "id": "x2",
+   "lane": "bad",
+   "col": 2,
+   "type": "security",
+   "label": "Edits, not audits",
+   "sublabel": "changes files it should not",
+   "width": 168
+  },
+  {
+   "id": "x3",
+   "lane": "bad",
+   "col": 3,
+   "type": "database",
+   "label": "auth-vs-log output",
+   "sublabel": "withdraw MISSING",
+   "tag": "only logTransfer",
+   "width": 168,
+   "sources": [
+    {
+     "path": "mocks/bad-candidate/auth-vs-log/findings.json",
+     "line": 1,
+     "end_line": 10
+    }
+   ]
+  },
+  {
+   "id": "x4",
+   "lane": "bad",
+   "col": 4,
+   "type": "security",
+   "label": "Code grader FAIL",
+   "sublabel": "missing finding: withdraw",
+   "width": 168,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/candidate/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "x5",
+   "lane": "bad",
+   "col": 5,
+   "type": "security",
+   "label": "keep-suite FAIL",
+   "sublabel": "config.py \u2192 99.0.0 / 0",
+   "tag": "pytest 2 failed",
+   "width": 168,
+   "sources": [
+    {
+     "path": "mocks/bad-candidate/keep-suite/overlay/app/config.py",
+     "line": 1,
+     "end_line": 4
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "b0",
+   "to": "b1",
+   "role": "main"
+  },
+  {
+   "from": "b1",
+   "to": "b2",
+   "role": "main"
+  },
+  {
+   "from": "b2",
+   "to": "b3",
+   "role": "main"
+  },
+  {
+   "from": "b3",
+   "to": "b4",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "b4",
+   "to": "b5",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "g0",
+   "to": "g1",
+   "role": "main"
+  },
+  {
+   "from": "g1",
+   "to": "g2",
+   "role": "main"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "role": "main"
+  },
+  {
+   "from": "g3",
+   "to": "g4",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "g4",
+   "to": "g5",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "x0",
+   "to": "x1",
+   "role": "main"
+  },
+  {
+   "from": "x1",
+   "to": "x2",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "x2",
+   "to": "x3",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "x3",
+   "to": "x4",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "x4",
+   "to": "x5",
+   "role": "main",
+   "variant": "security"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "slate",
+   "title": "Held constant across all three arms",
+   "items": [
+    "Same task prompt, repo copy, model, tool set, agent loop",
+    "Same graders and held-out answers",
+    "Only copy_guidance() differs: AGENTS.md vs <candidate>/SKILL.md"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Good candidate: the behavioural change",
+   "items": [
+    "'Vulnerable only when tx.origin gates authorization'",
+    "'Not a finding when tx.origin is used only for logging, events, or analytics'",
+    "Fixes the baseline false positive without losing withdraw"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Bad candidate: the behavioural change",
+   "items": [
+    "'Patch the contract to remove or replace it'",
+    "'Harden application config\u2026 bump versions, tighten retry limits'",
+    "Turns an auditor into an editor \u2192 misses withdraw, breaks keep-suite"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Evidence source",
+   "items": [
+    "Outputs shown are the committed dry-run mocks (mocks/<arm>/<task>/)",
+    "Live runs use the same graders; real model output may differ"
+   ]
+  }
+ ]
 }

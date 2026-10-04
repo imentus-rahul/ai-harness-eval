@@ -1,11 +1,72 @@
 {
+  "model": "google/gemini-3-flash-preview",
   "tokens": {
-    "input": 0,
-    "output": 0,
-    "total": 0
+    "input": 3186,
+    "output": 178,
+    "total": 3364
   },
-  "cost_usd": 0.0,
-  "cost_source": "mock",
-  "latency_s": 0.1,
-  "ttft_ms": 50
+  "cost_usd": 0.002127,
+  "cost_source": "reported",
+  "api_calls": [
+    {
+      "turn": 1,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 360,
+      "output_tokens": 16,
+      "cost_usd": 0.000228,
+      "duration_ms": 2105
+    },
+    {
+      "turn": 2,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 467,
+      "output_tokens": 16,
+      "cost_usd": 0.000282,
+      "duration_ms": 15042
+    },
+    {
+      "turn": 3,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 410,
+      "output_tokens": 16,
+      "cost_usd": 0.000253,
+      "duration_ms": 1509
+    },
+    {
+      "turn": 4,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 435,
+      "output_tokens": 19,
+      "cost_usd": 0.000275,
+      "duration_ms": 1319
+    },
+    {
+      "turn": 5,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 475,
+      "output_tokens": 16,
+      "cost_usd": 0.000286,
+      "duration_ms": 1390
+    },
+    {
+      "turn": 6,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 500,
+      "output_tokens": 33,
+      "cost_usd": 0.000349,
+      "duration_ms": 1468
+    },
+    {
+      "turn": 7,
+      "model": "google/gemini-3-flash-preview",
+      "input_tokens": 539,
+      "output_tokens": 62,
+      "cost_usd": 0.000456,
+      "duration_ms": 2202
+    }
+  ],
+  "model_grade_cost_usd": null,
+  "trial_total_cost_usd": 0.002127,
+  "latency_s": 25.045,
+  "ttft_ms": 2003
 }

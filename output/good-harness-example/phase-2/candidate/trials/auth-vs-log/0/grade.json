@@ -2,8 +2,13 @@
   "code_pass": true,
   "code_reason": "held-out labels match",
   "model_pass": true,
-  "model_reason": "mock rubric PASS",
-  "model_raw": "PASS",
+  "model_reason": "PASS: The agent correctly distinguishes between tx.origin used for authorization and its safe use for logging.",
+  "model_raw": "PASS: The agent correctly distinguishes between tx.origin used for authorization and its safe use for logging.",
+  "model_grade_cost_usd": 0.000153,
+  "model_grade_tokens": {
+    "input": 186,
+    "output": 20
+  },
   "pass": true,
   "model_disagreement": false
 }

@@ -146,7 +146,11 @@ def grade_trial(
 ) -> dict[str, Any]:
     code = grade_code(task_id, workspace, task_dir)
     out = dict(code)
-    if use_model_grader and task_id in ("auth-vs-log", "caller-check"):
+    if (
+        use_model_grader
+        and task_id in ("auth-vs-log", "caller-check")
+        and not transcript.get("errors")
+    ):
         model_grade = grade_model_rubric(
             transcript.get("findings_text", ""),
             endpoint=endpoint,

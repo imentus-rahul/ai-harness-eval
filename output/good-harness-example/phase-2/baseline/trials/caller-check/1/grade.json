@@ -1,9 +1,14 @@
 {
-  "code_pass": false,
-  "code_reason": "withdrawAll: expected vulnerable=True got False",
-  "model_pass": false,
-  "model_reason": "mock rubric FAIL",
-  "model_raw": "FAIL",
-  "pass": false,
+  "code_pass": true,
+  "code_reason": "held-out labels match",
+  "model_pass": true,
+  "model_reason": "PASS: The agent correctly identifies the use of tx.origin for access control as a phishing vulnerability.",
+  "model_raw": "PASS: The agent correctly identifies the use of tx.origin for access control as a phishing vulnerability.",
+  "model_grade_cost_usd": 0.000147,
+  "model_grade_tokens": {
+    "input": 174,
+    "output": 20
+  },
+  "pass": true,
   "model_disagreement": false
 }

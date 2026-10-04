@@ -9,7 +9,8 @@
     "unstable": 0,
     "task_count": 2,
     "phase": "phase-1",
-    "total_cost_usd": 0.0
+    "total_cost_usd": 0.0195,
+    "api_error_trials": 0
   },
   "promoted_tasks": [
     "auth-vs-log"
@@ -18,13 +19,16 @@
   "phase_2_blocked_reason": null,
   "phase_2": {
     "verdict": "POSITIVE",
-    "improved": 2,
+    "improved": 1,
     "regressed": 0,
     "unstable": 0,
     "task_count": 3,
     "phase": "phase-2",
-    "total_cost_usd": 0.0
+    "total_cost_usd": 0.0296,
+    "api_error_trials": 0
   },
-  "dry_run": true,
-  "model": "anthropic/claude-haiku-4.5"
+  "dry_run": false,
+  "model": "google/gemini-3-flash-preview",
+  "openrouter_credits_depleted": false,
+  "openrouter_depletion_reason": null
 }

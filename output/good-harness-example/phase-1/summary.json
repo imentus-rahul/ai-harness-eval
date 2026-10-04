@@ -5,5 +5,6 @@
   "unstable": 0,
   "task_count": 2,
   "phase": "phase-1",
-  "total_cost_usd": 0.0
+  "total_cost_usd": 0.0195,
+  "api_error_trials": 0
 }

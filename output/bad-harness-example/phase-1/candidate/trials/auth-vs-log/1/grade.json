@@ -1,9 +1,14 @@
 {
   "code_pass": false,
   "code_reason": "missing finding for withdraw",
-  "model_pass": true,
-  "model_reason": "mock rubric PASS",
-  "model_raw": "PASS",
+  "model_pass": false,
+  "model_reason": "FAIL, the explanation is vague and does not explicitly distinguish between authorization vulnerabilities and logging-only uses of tx.origin.",
+  "model_raw": "FAIL, the explanation is vague and does not explicitly distinguish between authorization vulnerabilities and logging-only uses of tx.origin.",
+  "model_grade_cost_usd": 0.000126,
+  "model_grade_tokens": {
+    "input": 108,
+    "output": 24
+  },
   "pass": false,
-  "model_disagreement": true
+  "model_disagreement": false
 }

@@ -174,7 +174,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
   <span class="qtag">Q2 · What exactly are we evaluating?</span>
   <h2>2 · AI terminology: Model ≠ Agent ≠ Harness</h2>
   <div class="grid3">
-    <div class="card info"><h4>Model</h4><p>The LLM itself. Here: <code>anthropic/claude-haiku-4.5</code> via OpenRouter (<code>run.py</code> L27). <b>Held constant.</b></p></div>
+    <div class="card info"><h4>Model</h4><p>The LLM itself. Here: <code>anthropic/claude-haiku-4.5</code> via OpenRouter (<code>run.py</code> L31). <b>Held constant.</b></p></div>
     <div class="card violet"><h4>Agent</h4><p>Model + an execution loop + tools acting on a workspace. Here: <code>run_agent()</code> with <code>read_file</code>, <code>list_files</code>, <code>write_file</code>, at most 8 turns and $0.05.</p></div>
     <div class="card warn"><h4>Harness</h4><p>Everything around the model that shapes behaviour: guidance files, tools, loop, budgets. <b>This experiment changes only the guidance file.</b></p></div>
   </div>
@@ -249,7 +249,7 @@ footer{margin-top:64px;color:var(--muted);font-size:13px;border-top:1px solid va
   <figure class="diagram"><figcaption><span>Diagram 02 · Runtime journey with owning functions</span><a href="02-workflow-runtime-journey/runtime-journey.html" target="_blank">Open full screen ↗</a></figcaption><iframe loading="lazy" src="02-workflow-runtime-journey/runtime-journey.html" title="Runtime journey"></iframe></figure>
   <div class="grid3">
     <div class="card"><h4>Where baseline and candidate diverge</h4><p>Only inside <code>run_one_trial()</code> → <code>copy_guidance()</code>. Everything before and after is shared.</p></div>
-    <div class="card"><h4>Where Phase 2 can be blocked</h4><p>Right after Phase 1: <code>phase2_blocked_reason(comparisons1, promoted)</code> (<code>run.py</code> L160).</p></div>
+    <div class="card"><h4>Where Phase 2 can be blocked</h4><p>Right after Phase 1: <code>phase2_blocked_reason(comparisons1, promoted)</code> (<code>run.py</code> L248).</p></div>
     <div class="card"><h4>Where a capability becomes regression</h4><p><code>promote_capability_tasks()</code> (L152), then the in-memory Phase 2 registry sets <code>suite: regression</code> (L166-171).</p></div>
   </div>
 </section>
@@ -409,7 +409,7 @@ Always write `findings.json` with one entry per function you classify.</pre>
 <section id="s12">
   <span class="qtag">Q7 · How do we know a result is correct?</span>
   <h2>12 · Graders</h2>
-  <div class="callout bad"><b>model grader result ≠ authoritative trial PASS.</b> <code>graders.py</code> L158: <code>out["pass"] = code["code_pass"]</code>. Comparison, promotion and the gate only read <code>pass</code>.</div>
+  <div class="callout bad"><b>model grader result ≠ authoritative trial PASS.</b> <code>graders.py</code> L162: <code>out["pass"] = code["code_pass"]</code>. Comparison, promotion and the gate only read <code>pass</code>.</div>
   <figure class="diagram"><figcaption><span>Diagram 07 · Grader architecture</span><a href="07-workflow-graders/graders.html" target="_blank">Open full screen ↗</a></figcaption><iframe loading="lazy" src="07-workflow-graders/graders.html" title="Graders"></iframe></figure>
   <div class="table-wrap"><table>
     <tr><th>Grader</th><th>Used for</th><th>Mechanism</th><th>Authoritative?</th></tr>

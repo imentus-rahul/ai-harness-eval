@@ -3,14 +3,14 @@
     {
       "function": "withdraw",
       "vulnerable": true,
-      "issue": "tx.origin",
-      "detail": "Uses tx.origin for auth."
+      "issue": "Use of tx.origin for authentication",
+      "detail": "Using tx.origin for authorization can lead to phishing attacks where a user is tricked into calling a malicious contract."
     },
     {
       "function": "logTransfer",
       "vulnerable": true,
-      "issue": "tx.origin",
-      "detail": "tx.origin in log path."
+      "issue": "Use of tx.origin",
+      "detail": "The function uses tx.origin to identify the sender, which can be misleading if the call is proxied through another contract."
     }
   ]
 }

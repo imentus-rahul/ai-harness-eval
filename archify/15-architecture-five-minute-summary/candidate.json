@@ -1,37 +1,321 @@
 {
-  "schema_version": 1,
-  "diagram_type": "architecture",
-  "meta": {
-    "title": "15 · The whole system in 5 minutes — nine layers",
-    "output": "archify/15-architecture-five-minute-summary/five-minute-summary.html",
-    "quality_profile": "showcase",
-    "repository": { "url": "https://github.com/imentus-rahul/ai-harness-eval.git", "link_mode": "local-only", "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb" }
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "15 \u00b7 The whole system in 5 minutes \u2014 nine layers",
+  "output": "archify/15-architecture-five-minute-summary/five-minute-summary.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "components": [
+  {
+   "id": "concept",
+   "type": "external",
+   "label": "1 \u00b7 CONCEPT",
+   "sublabel": "evaluate harness changes, not the LLM",
+   "pos": [
+    40,
+    60
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "README.md",
+     "line": 3,
+     "end_line": 7
+    }
+   ]
   },
-  "components": [
-    { "id": "concept", "type": "external", "label": "1 · CONCEPT", "sublabel": "evaluate harness changes, not the LLM", "pos": [40, 60], "size": [250, 72], "sources": [{ "path": "README.md", "line": 3, "end_line": 7 }] },
-    { "id": "config", "type": "frontend", "label": "2 · CONFIGURATION", "sublabel": "eval.config.yaml + --scenario", "tag": "good | bad | both", "pos": [380, 60], "size": [250, 72], "sources": [{ "path": "eval.config.yaml", "line": 1, "end_line": 5 }, { "path": "src/eval/config.py", "line": 43, "end_line": 64 }] },
-    { "id": "exec", "type": "backend", "label": "3 · EXECUTION", "sublabel": "phase → task → rep → arm", "tag": "run_phase_under()", "pos": [720, 60], "size": [250, 72], "sources": [{ "path": "src/eval/run.py", "line": 207, "end_line": 244 }] },
-    { "id": "agent", "type": "backend", "label": "4 · AGENT", "sublabel": "guidance + tools + OpenRouter LLM", "tag": "run_agent()", "pos": [720, 230], "size": [250, 72], "sources": [{ "path": "src/eval/agent.py", "line": 86, "end_line": 175 }] },
-    { "id": "output", "type": "database", "label": "5 · OUTPUT", "sublabel": "findings.json + trial artifacts", "tag": "write_trial_artifacts()", "pos": [380, 230], "size": [250, 72], "sources": [{ "path": "src/eval/trial.py", "line": 38, "end_line": 79 }] },
-    { "id": "grading", "type": "security", "label": "6 · GRADING", "sublabel": "code grader decides · model is evidence", "tag": "grade_trial()", "pos": [40, 230], "size": [250, 72], "sources": [{ "path": "src/eval/graders.py", "line": 135, "end_line": 163 }] },
-    { "id": "compare", "type": "backend", "label": "7 · COMPARISON", "sublabel": "baseline vs candidate per task", "tag": "IMPROVED · REGRESSED · …", "pos": [40, 400], "size": [250, 72], "sources": [{ "path": "src/eval/compare.py", "line": 8, "end_line": 67 }] },
-    { "id": "decision", "type": "security", "label": "8 · DECISION", "sublabel": "graduate · regress · block Phase 2", "tag": "promote + gate", "pos": [380, 400], "size": [250, 72], "sources": [{ "path": "src/eval/promote.py", "line": 33, "end_line": 66 }, { "path": "src/eval/gate.py", "line": 8, "end_line": 27 }] },
-    { "id": "report", "type": "database", "label": "9 · REPORTING", "sublabel": "phase → scenario → global summary", "tag": "report.py + summary.json", "pos": [720, 400], "size": [250, 72], "sources": [{ "path": "src/eval/report.py", "line": 10, "end_line": 78 }, { "path": "src/eval/run.py", "line": 328, "end_line": 351 }] }
-  ],
-  "connections": [
-    { "id": "s1", "from": "concept", "to": "config", "label": "choose story", "variant": "emphasis" },
-    { "id": "s2", "from": "config", "to": "exec", "label": "candidate_id", "variant": "emphasis" },
-    { "id": "s3", "from": "exec", "to": "agent", "label": "trial", "variant": "emphasis" },
-    { "id": "s4", "from": "agent", "to": "output", "label": "writes", "variant": "emphasis" },
-    { "id": "s5", "from": "output", "to": "grading", "label": "read", "variant": "emphasis" },
-    { "id": "s6", "from": "grading", "to": "compare", "label": "pass: bool", "variant": "emphasis" },
-    { "id": "s7", "from": "compare", "to": "decision", "label": "transitions", "variant": "security" },
-    { "id": "s8", "from": "decision", "to": "report", "label": "Phase 2 or reason", "variant": "emphasis" }
-  ],
-  "cards": [
-    { "dot": "cyan", "title": "One sentence", "items": ["Run the SAME tasks under a baseline and a candidate harness, grade them with deterministic code, and only let the candidate advance if nothing regressed and its capability wins are stable."] },
-    { "dot": "emerald", "title": "Good candidate (committed run)", "items": ["Phase 1 POSITIVE: auth-vs-log IMPROVED, keep-suite UNCHANGED", "auth-vs-log graduates → Phase 2 runs", "Phase 2 POSITIVE: 2 improved, 0 regressed"] },
-    { "dot": "rose", "title": "Bad candidate (committed run)", "items": ["Phase 1 NEGATIVE: keep-suite REGRESSED, auth-vs-log still FAIL", "Nothing promoted → Phase 2 blocked", "Reason: 'regression task keep-suite regressed (PASS→FAIL)'"] },
-    { "dot": "amber", "title": "Loop back", "items": ["If the gate allows, layer 8 sends execution round again as Phase 2 (graduated tasks + caller-check)", "Diagram 02 shows the full function-level journey"] }
-  ]
+  {
+   "id": "config",
+   "type": "frontend",
+   "label": "2 \u00b7 CONFIGURATION",
+   "sublabel": "eval.config.yaml + --scenario",
+   "tag": "good | bad | both",
+   "pos": [
+    380,
+    60
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "eval.config.yaml",
+     "line": 1,
+     "end_line": 5
+    },
+    {
+     "path": "src/eval/config.py",
+     "line": 43,
+     "end_line": 64
+    }
+   ]
+  },
+  {
+   "id": "exec",
+   "type": "backend",
+   "label": "3 \u00b7 EXECUTION",
+   "sublabel": "phase \u2192 task \u2192 rep \u2192 arm",
+   "tag": "run_phase_under()",
+   "pos": [
+    720,
+    60
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 207,
+     "end_line": 244
+    }
+   ]
+  },
+  {
+   "id": "agent",
+   "type": "backend",
+   "label": "4 \u00b7 AGENT",
+   "sublabel": "guidance + tools + OpenRouter LLM",
+   "tag": "run_agent()",
+   "pos": [
+    720,
+    230
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 86,
+     "end_line": 175
+    }
+   ]
+  },
+  {
+   "id": "output",
+   "type": "database",
+   "label": "5 \u00b7 OUTPUT",
+   "sublabel": "findings.json + trial artifacts",
+   "tag": "write_trial_artifacts()",
+   "pos": [
+    380,
+    230
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 38,
+     "end_line": 79
+    }
+   ]
+  },
+  {
+   "id": "grading",
+   "type": "security",
+   "label": "6 \u00b7 GRADING",
+   "sublabel": "code grader decides \u00b7 model is evidence",
+   "tag": "grade_trial()",
+   "pos": [
+    40,
+    230
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 163
+    }
+   ]
+  },
+  {
+   "id": "compare",
+   "type": "backend",
+   "label": "7 \u00b7 COMPARISON",
+   "sublabel": "baseline vs candidate per task",
+   "tag": "IMPROVED \u00b7 REGRESSED \u00b7 \u2026",
+   "pos": [
+    40,
+    400
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 8,
+     "end_line": 67
+    }
+   ]
+  },
+  {
+   "id": "decision",
+   "type": "security",
+   "label": "8 \u00b7 DECISION",
+   "sublabel": "graduate \u00b7 regress \u00b7 block Phase 2",
+   "tag": "promote + gate",
+   "pos": [
+    380,
+    400
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 33,
+     "end_line": 66
+    },
+    {
+     "path": "src/eval/gate.py",
+     "line": 8,
+     "end_line": 27
+    }
+   ]
+  },
+  {
+   "id": "report",
+   "type": "database",
+   "label": "9 \u00b7 REPORTING",
+   "sublabel": "phase \u2192 scenario \u2192 global summary",
+   "tag": "report.py + summary.json",
+   "pos": [
+    720,
+    400
+   ],
+   "size": [
+    250,
+    72
+   ],
+   "sources": [
+    {
+     "path": "src/eval/report.py",
+     "line": 10,
+     "end_line": 78
+    },
+    {
+     "path": "src/eval/run.py",
+     "line": 328,
+     "end_line": 351
+    }
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "s1",
+   "from": "concept",
+   "to": "config",
+   "label": "choose story",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s2",
+   "from": "config",
+   "to": "exec",
+   "label": "candidate_id",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s3",
+   "from": "exec",
+   "to": "agent",
+   "label": "trial",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s4",
+   "from": "agent",
+   "to": "output",
+   "label": "writes",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s5",
+   "from": "output",
+   "to": "grading",
+   "label": "read",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s6",
+   "from": "grading",
+   "to": "compare",
+   "label": "pass: bool",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s7",
+   "from": "compare",
+   "to": "decision",
+   "label": "transitions",
+   "variant": "security"
+  },
+  {
+   "id": "s8",
+   "from": "decision",
+   "to": "report",
+   "label": "Phase 2 or reason",
+   "variant": "emphasis"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "One sentence",
+   "items": [
+    "Run the SAME tasks under a baseline and a candidate harness, grade them with deterministic code, and only let the candidate advance if nothing regressed and its capability wins are stable."
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Good candidate (committed run)",
+   "items": [
+    "Phase 1 POSITIVE: auth-vs-log IMPROVED, keep-suite UNCHANGED",
+    "auth-vs-log graduates \u2192 Phase 2 runs",
+    "Phase 2 POSITIVE: 2 improved, 0 regressed"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Bad candidate (committed run)",
+   "items": [
+    "Phase 1 NEGATIVE: keep-suite REGRESSED, auth-vs-log still FAIL",
+    "Nothing promoted \u2192 Phase 2 blocked",
+    "Reason: 'regression task keep-suite regressed (PASS\u2192FAIL)'"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Loop back",
+   "items": [
+    "If the gate allows, layer 8 sends execution round again as Phase 2 (graduated tasks + caller-check)",
+    "Diagram 02 shows the full function-level journey"
+   ]
+  }
+ ]
 }

@@ -1,10 +1,16 @@
 {
   "findings": [
     {
+      "function": "deposit",
+      "vulnerable": true,
+      "issue": "Use of msg.sender",
+      "detail": "The function uses msg.sender to track balances, which is susceptible to common smart contract interaction patterns but flagged per instructions."
+    },
+    {
       "function": "withdrawAll",
-      "vulnerable": false,
-      "issue": "none",
-      "detail": "Looks fine."
+      "vulnerable": true,
+      "issue": "Use of tx.origin and msg.sender",
+      "detail": "The function uses tx.origin in a require statement for access control and msg.sender for state updates."
     }
   ]
 }

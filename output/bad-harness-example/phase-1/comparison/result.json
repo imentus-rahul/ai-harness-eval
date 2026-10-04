@@ -6,7 +6,8 @@
     "unstable": 0,
     "task_count": 2,
     "phase": "phase-1",
-    "total_cost_usd": 0.0
+    "total_cost_usd": 0.0327,
+    "api_error_trials": 0
   },
   "comparisons": [
     {
@@ -23,7 +24,7 @@
         false,
         false
       ],
-      "model_disagreements": 2
+      "model_disagreements": 0
     },
     {
       "task_id": "keep-suite",

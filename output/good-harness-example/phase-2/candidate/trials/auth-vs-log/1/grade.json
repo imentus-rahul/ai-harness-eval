@@ -2,8 +2,13 @@
   "code_pass": true,
   "code_reason": "held-out labels match",
   "model_pass": true,
-  "model_reason": "mock rubric PASS",
-  "model_raw": "PASS",
+  "model_reason": "PASS: The agent correctly distinguishes between the critical authorization vulnerability in `withdraw` and the safe logging usage in `logTransfer`.",
+  "model_raw": "PASS: The agent correctly distinguishes between the critical authorization vulnerability in `withdraw` and the safe logging usage in `logTransfer`.",
+  "model_grade_cost_usd": 0.0001695,
+  "model_grade_tokens": {
+    "input": 189,
+    "output": 25
+  },
   "pass": true,
   "model_disagreement": false
 }

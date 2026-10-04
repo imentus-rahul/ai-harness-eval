@@ -1,2 +1,7 @@
-Audit Wallet.sol. Write findings.json at the repo root.
-Classify each function that uses tx.origin: vulnerable or not, with a short reason.
+Audit Wallet.sol. Write findings.json at the repo root before finishing.
+
+You must include exactly one finding per function that uses tx.origin:
+- withdraw — set vulnerable true or false
+- logTransfer — set vulnerable true or false
+
+Use JSON booleans for vulnerable, not strings.

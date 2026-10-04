@@ -9,7 +9,7 @@
    "mode": "hidden"
   },
   "repository": {
-   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
    "link_mode": "local-only",
    "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
   }
@@ -227,8 +227,8 @@
     },
     {
      "path": "src/eval/gate.py",
-     "line": 12,
-     "end_line": 14
+     "line": 8,
+     "end_line": 22
     }
    ]
   }

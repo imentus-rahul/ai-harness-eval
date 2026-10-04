@@ -8,7 +8,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-from .openrouter import ChatResult, chat
+from .findings_util import findings_schema_ok, load_required_functions
+from .openrouter import chat
 
 TOOL_SPECS = [
     {
@@ -91,10 +92,23 @@ def run_agent(
     endpoint: str,
     model: str,
     api_key: str,
-    max_turns: int = 8,
-    max_cost_usd: float = 0.05,
+    max_turns: int = 12,
+    max_cost_usd: float = 0.08,
+    task_dir: Path | None = None,
 ) -> dict[str, Any]:
-    system = guidance + "\n\nYou must use tools to inspect the repo and write findings.json."
+    required_fns = load_required_functions(task_dir) if task_dir else []
+    schema_note = ""
+    if required_fns:
+        schema_note = (
+            "\n\nHeld-out grader requires findings.json entries for functions: "
+            + ", ".join(required_fns)
+            + ". Each entry must include boolean vulnerable."
+        )
+    system = (
+        guidance
+        + "\n\nYou must use tools to inspect the repo and write findings.json."
+        + schema_note
+    )
     messages: list[dict[str, Any]] = [
         {"role": "system", "content": system},
         {"role": "user", "content": prompt},
@@ -107,8 +121,9 @@ def run_agent(
     cost_source = "reported"
     ttft_ms: int | None = None
     started = time.monotonic()
+    api_calls: list[dict[str, Any]] = []
 
-    for _ in range(max_turns):
+    for turn in range(max_turns):
         try:
             result = chat(endpoint, model, messages, TOOL_SPECS, api_key)
         except RuntimeError as exc:
@@ -119,11 +134,23 @@ def run_agent(
         total_out += result.output_tokens
         if result.ttft_ms is not None and ttft_ms is None:
             ttft_ms = result.ttft_ms
-        if result.cost_usd is not None:
-            total_cost += result.cost_usd
-        else:
-            total_cost += estimate_cost_usd(result.input_tokens, result.output_tokens)
+        turn_cost = float(result.cost_usd or 0)
+        if turn_cost <= 0 and (result.input_tokens or result.output_tokens):
+            turn_cost = estimate_cost_usd(result.input_tokens, result.output_tokens)
             cost_source = "computed"
+        elif turn_cost > 0 and cost_source != "computed":
+            pass
+        total_cost += turn_cost
+        api_calls.append(
+            {
+                "turn": turn + 1,
+                "model": result.model or model,
+                "input_tokens": result.input_tokens,
+                "output_tokens": result.output_tokens,
+                "cost_usd": round(turn_cost, 6),
+                "duration_ms": result.duration_ms,
+            }
+        )
 
         if total_cost > max_cost_usd:
             errors.append(f"budget exceeded {max_cost_usd:.4f} USD")
@@ -157,6 +184,20 @@ def run_agent(
 
         if result.content:
             messages.append({"role": "assistant", "content": result.content})
+        if required_fns:
+            ok, reason = findings_schema_ok(workspace, required_fns)
+            if not ok:
+                messages.append(
+                    {
+                        "role": "user",
+                        "content": (
+                            f"findings.json is incomplete: {reason}. "
+                            "Fix with write_file. Include every required function "
+                            "with boolean vulnerable before stopping."
+                        ),
+                    }
+                )
+                continue
         break
 
     findings_path = workspace / "findings.json"
@@ -172,6 +213,8 @@ def run_agent(
         "tokens": {"input": total_in, "output": total_out, "total": total_in + total_out},
         "cost_usd": round(total_cost, 6),
         "cost_source": cost_source,
+        "model": api_calls[-1]["model"] if api_calls else model,
+        "api_calls": api_calls,
     }
 
 

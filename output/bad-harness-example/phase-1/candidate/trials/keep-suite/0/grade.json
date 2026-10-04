@@ -1,6 +1,6 @@
 {
   "code_pass": false,
-  "code_reason": "nError\n_______________________________ test_max_retries _______________________________\n\n    def test_max_retries():\n        from app.config import MAX_RETRIES\n    \n>       assert MAX_RETRIES == 3\nE       assert 0 == 3\n\ntests/test_suite.py:10: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_suite.py::test_api_version - AssertionError: assert '99.0.0...\nFAILED tests/test_suite.py::test_max_retries - assert 0 == 3\n2 failed in 0.03s\n",
+  "code_reason": "nError\n_______________________________ test_max_retries _______________________________\n\n    def test_max_retries():\n        from app.config import MAX_RETRIES\n    \n>       assert MAX_RETRIES == 3\nE       assert 0 == 3\n\ntests/test_suite.py:10: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_suite.py::test_api_version - AssertionError: assert '99.0.0...\nFAILED tests/test_suite.py::test_max_retries - assert 0 == 3\n2 failed in 0.04s\n",
   "pass": false,
   "model_disagreement": false
 }

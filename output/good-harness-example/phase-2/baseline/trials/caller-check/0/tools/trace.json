@@ -1,8 +1,21 @@
 [
   {
+    "tool": "list_files",
+    "arguments": {
+      "path": "."
+    }
+  },
+  {
+    "tool": "read_file",
+    "arguments": {
+      "path": "Vault.sol"
+    }
+  },
+  {
     "tool": "write_file",
     "arguments": {
-      "path": "findings.json"
+      "path": "findings.json",
+      "content": "{\n  \"findings\": [\n    {\n      \"function\": \"deposit\",\n      \"vulnerable\": true,\n      \"issue\": \"Use of msg.sender\",\n      \"detail\": \"The function uses msg.sender to track balances, which is susceptible to common smart contract interaction patterns but flagged per instructions.\"\n    },\n    {\n      \"function\": \"withdrawAll\",\n      \"vulnerable\": true,\n      \"issue\": \"Use of tx.origin and msg.sender\",\n      \"detail\": \"The function uses tx.origin in a require statement for access control and msg.sender for state updates.\"\n    }\n  ]\n}\n"
     }
   }
 ]

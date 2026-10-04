@@ -1,45 +1,278 @@
 {
-  "schema_version": 2,
-  "diagram_type": "workflow",
-  "meta": {
-    "title": "01 · Why not just use gut feeling?",
-    "output": "archify/01-workflow-gut-feel-vs-evidence/gut-feel-vs-evidence.html",
-    "quality_profile": "showcase",
-    "repository": { "url": "https://github.com/imentus-rahul/ai-harness-eval.git", "link_mode": "local-only", "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb" }
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "01 \u00b7 Why not just use gut feeling?",
+  "output": "archify/01-workflow-gut-feel-vs-evidence/gut-feel-vs-evidence.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "gut",
+   "label": "Gut feeling (conceptual \u00b7 what teams do today)",
+   "variant": "exception"
   },
-  "lanes": [
-    { "id": "gut", "label": "Gut feeling (conceptual · what teams do today)", "variant": "exception" },
-    { "id": "ev", "label": "Evidence path (implemented in this repo)" }
-  ],
-  "mainPath": ["e_change", "e_tasks", "e_arms", "e_reps", "e_compare", "e_decide"],
-  "nodes": [
-    { "id": "g_change", "lane": "gut", "col": 0, "type": "external", "label": "Change harness", "sublabel": "new SKILL.md / AGENTS.md", "width": 156 },
-    { "id": "g_seems", "lane": "gut", "col": 1, "type": "frontend", "label": "It seems better", "sublabel": "read 2-3 transcripts", "width": 156 },
-    { "id": "g_intuit", "lane": "gut", "col": 2, "type": "frontend", "label": "Human intuition", "sublabel": "sounds stricter = safer", "width": 156 },
-    { "id": "g_ship", "lane": "gut", "col": 3, "type": "security", "label": "Ship it?", "sublabel": "no paired baseline", "width": 156 },
-    { "id": "g_prod", "lane": "gut", "col": 4, "type": "security", "label": "Find out in prod", "sublabel": "hypothetical outcome", "tag": "not measured", "width": 156 },
-
-    { "id": "e_change", "lane": "ev", "col": 0, "type": "external", "label": "Change harness", "sublabel": "harnesses/<candidate>/", "width": 156, "sources": [{ "path": "harnesses/good-candidate/SKILL.md", "line": 1, "end_line": 12 }, { "path": "harnesses/bad-candidate/SKILL.md", "line": 1, "end_line": 11 }] },
-    { "id": "e_tasks", "lane": "ev", "col": 1, "type": "backend", "label": "Controlled tasks", "sublabel": "same repo, prompt, model", "width": 156, "sources": [{ "path": "src/eval/run.py", "line": 55, "end_line": 64 }, { "path": "tasks/registry.bootstrap.yaml", "line": 1, "end_line": 5 }] },
-    { "id": "e_arms", "lane": "ev", "col": 2, "type": "backend", "label": "Baseline vs Candidate", "sublabel": "copy_guidance()", "width": 156, "sources": [{ "path": "src/eval/trial.py", "line": 20, "end_line": 35 }] },
-    { "id": "e_reps", "lane": "ev", "col": 3, "type": "security", "label": "Repeat + grade", "sublabel": "REPS=2 · code graders", "width": 156, "sources": [{ "path": "src/eval/run.py", "line": 226, "end_line": 244 }, { "path": "src/eval/graders.py", "line": 88, "end_line": 94 }] },
-    { "id": "e_compare", "lane": "ev", "col": 4, "type": "backend", "label": "Compare outcomes", "sublabel": "transition()", "width": 156, "sources": [{ "path": "src/eval/compare.py", "line": 8, "end_line": 27 }] },
-    { "id": "e_decide", "lane": "ev", "col": 5, "type": "security", "label": "Graduate / block", "sublabel": "phase2_blocked_reason()", "width": 156, "sources": [{ "path": "src/eval/gate.py", "line": 8, "end_line": 20 }, { "path": "src/eval/promote.py", "line": 33, "end_line": 66 }] }
-  ],
-  "edges": [
-    { "from": "g_change", "to": "g_seems", "role": "main", "variant": "dashed" },
-    { "from": "g_seems", "to": "g_intuit", "role": "main", "variant": "dashed" },
-    { "from": "g_intuit", "to": "g_ship", "role": "main", "variant": "dashed" },
-    { "from": "g_ship", "to": "g_prod", "role": "main", "variant": "security" },
-    { "from": "e_change", "to": "e_tasks", "role": "main" },
-    { "from": "e_tasks", "to": "e_arms", "role": "main" },
-    { "from": "e_arms", "to": "e_reps", "role": "main" },
-    { "from": "e_reps", "to": "e_compare", "role": "main" },
-    { "from": "e_compare", "to": "e_decide", "role": "main", "variant": "emphasis" }
-  ],
-  "cards": [
-    { "dot": "rose", "title": "What gut feeling misses", "items": ["Both candidate skills in this repo 'sound' like stricter security", "Only one of them actually improves; the other breaks a passing suite", "No baseline means no way to attribute a change to the harness"] },
-    { "dot": "emerald", "title": "What the evidence path adds", "items": ["One variable: only the guidance file differs between arms", "Held-out answers the agent never sees (tasks/*/heldout/)", "Deterministic code graders decide PASS/FAIL", "A gate that blocks rollout on any regression"] },
-    { "dot": "violet", "title": "What is being evaluated", "items": ["Changes to the coding-agent HARNESS (instructions, skills)", "Not the raw intelligence of the LLM: model is held constant"] }
-  ]
+  {
+   "id": "ev",
+   "label": "Evidence path (implemented in this repo)"
+  }
+ ],
+ "mainPath": [
+  "e_change",
+  "e_tasks",
+  "e_arms",
+  "e_reps",
+  "e_compare",
+  "e_decide"
+ ],
+ "nodes": [
+  {
+   "id": "g_change",
+   "lane": "gut",
+   "col": 0,
+   "type": "external",
+   "label": "Change harness",
+   "sublabel": "new SKILL.md / AGENTS.md",
+   "width": 156
+  },
+  {
+   "id": "g_seems",
+   "lane": "gut",
+   "col": 1,
+   "type": "frontend",
+   "label": "It seems better",
+   "sublabel": "read 2-3 transcripts",
+   "width": 156
+  },
+  {
+   "id": "g_intuit",
+   "lane": "gut",
+   "col": 2,
+   "type": "frontend",
+   "label": "Human intuition",
+   "sublabel": "sounds stricter = safer",
+   "width": 156
+  },
+  {
+   "id": "g_ship",
+   "lane": "gut",
+   "col": 3,
+   "type": "security",
+   "label": "Ship it?",
+   "sublabel": "no paired baseline",
+   "width": 156
+  },
+  {
+   "id": "g_prod",
+   "lane": "gut",
+   "col": 4,
+   "type": "security",
+   "label": "Find out in prod",
+   "sublabel": "hypothetical outcome",
+   "tag": "not measured",
+   "width": 156
+  },
+  {
+   "id": "e_change",
+   "lane": "ev",
+   "col": 0,
+   "type": "external",
+   "label": "Change harness",
+   "sublabel": "harnesses/<candidate>/",
+   "width": 156,
+   "sources": [
+    {
+     "path": "harnesses/good-candidate/SKILL.md",
+     "line": 1,
+     "end_line": 12
+    },
+    {
+     "path": "harnesses/bad-candidate/SKILL.md",
+     "line": 1,
+     "end_line": 11
+    }
+   ]
+  },
+  {
+   "id": "e_tasks",
+   "lane": "ev",
+   "col": 1,
+   "type": "backend",
+   "label": "Controlled tasks",
+   "sublabel": "same repo, prompt, model",
+   "width": 156,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 54,
+     "end_line": 57
+    },
+    {
+     "path": "tasks/registry.bootstrap.yaml",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "e_arms",
+   "lane": "ev",
+   "col": 2,
+   "type": "backend",
+   "label": "Baseline vs Candidate",
+   "sublabel": "copy_guidance()",
+   "width": 156,
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 20,
+     "end_line": 37
+    }
+   ]
+  },
+  {
+   "id": "e_reps",
+   "lane": "ev",
+   "col": 3,
+   "type": "security",
+   "label": "Repeat + grade",
+   "sublabel": "REPS=2 \u00b7 code graders",
+   "width": 156,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 191,
+     "end_line": 308
+    },
+    {
+     "path": "src/eval/graders.py",
+     "line": 88,
+     "end_line": 96
+    }
+   ]
+  },
+  {
+   "id": "e_compare",
+   "lane": "ev",
+   "col": 4,
+   "type": "backend",
+   "label": "Compare outcomes",
+   "sublabel": "transition()",
+   "width": 156,
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 8,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "e_decide",
+   "lane": "ev",
+   "col": 5,
+   "type": "security",
+   "label": "Graduate / block",
+   "sublabel": "phase2_blocked_reason()",
+   "width": 156,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 8,
+     "end_line": 22
+    },
+    {
+     "path": "src/eval/promote.py",
+     "line": 33,
+     "end_line": 66
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "g_change",
+   "to": "g_seems",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "g_seems",
+   "to": "g_intuit",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "g_intuit",
+   "to": "g_ship",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "g_ship",
+   "to": "g_prod",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "e_change",
+   "to": "e_tasks",
+   "role": "main"
+  },
+  {
+   "from": "e_tasks",
+   "to": "e_arms",
+   "role": "main"
+  },
+  {
+   "from": "e_arms",
+   "to": "e_reps",
+   "role": "main"
+  },
+  {
+   "from": "e_reps",
+   "to": "e_compare",
+   "role": "main"
+  },
+  {
+   "from": "e_compare",
+   "to": "e_decide",
+   "role": "main",
+   "variant": "emphasis"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "rose",
+   "title": "What gut feeling misses",
+   "items": [
+    "Both candidate skills in this repo 'sound' like stricter security",
+    "Only one of them actually improves; the other breaks a passing suite",
+    "No baseline means no way to attribute a change to the harness"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What the evidence path adds",
+   "items": [
+    "One variable: only the guidance file differs between arms",
+    "Held-out answers the agent never sees (tasks/*/heldout/)",
+    "Deterministic code graders decide PASS/FAIL",
+    "A gate that blocks rollout on any regression"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "What is being evaluated",
+   "items": [
+    "Changes to the coding-agent HARNESS (instructions, skills)",
+    "Not the raw intelligence of the LLM: model is held constant"
+   ]
+  }
+ ]
 }

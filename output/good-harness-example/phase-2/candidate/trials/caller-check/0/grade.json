@@ -1,9 +1,14 @@
 {
   "code_pass": true,
   "code_reason": "held-out labels match",
-  "model_pass": false,
-  "model_reason": "mock rubric FAIL",
-  "model_raw": "FAIL",
+  "model_pass": true,
+  "model_reason": "PASS: The agent correctly identifies the use of tx.origin for access control as a vulnerability.",
+  "model_raw": "PASS: The agent correctly identifies the use of tx.origin for access control as a vulnerability.",
+  "model_grade_cost_usd": 0.0001225,
+  "model_grade_tokens": {
+    "input": 131,
+    "output": 19
+  },
   "pass": true,
-  "model_disagreement": true
+  "model_disagreement": false
 }

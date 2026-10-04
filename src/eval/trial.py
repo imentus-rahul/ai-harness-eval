@@ -47,9 +47,17 @@ def write_trial_artifacts(trial_dir: Path, transcript: dict[str, Any], grade: di
     (cost_dir / "usage.json").write_text(
         json.dumps(
             {
+                "model": transcript.get("model"),
                 "tokens": transcript.get("tokens"),
                 "cost_usd": transcript.get("cost_usd"),
                 "cost_source": transcript.get("cost_source"),
+                "api_calls": transcript.get("api_calls", []),
+                "model_grade_cost_usd": grade.get("model_grade_cost_usd"),
+                "trial_total_cost_usd": round(
+                    float(transcript.get("cost_usd") or 0)
+                    + float(grade.get("model_grade_cost_usd") or 0),
+                    6,
+                ),
                 "latency_s": transcript.get("latency_s"),
                 "ttft_ms": transcript.get("ttft_ms"),
             },

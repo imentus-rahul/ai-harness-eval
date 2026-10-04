@@ -96,7 +96,7 @@
         },
         "evidence": {
           "verified": true,
-          "repository": "https://github.com/imentus-rahul/ai-harness-eval.git",
+          "repository": "https://local.invalid/harness-eval/submission-improved.git",
           "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb",
           "references": 9,
           "linkMode": "local-only"

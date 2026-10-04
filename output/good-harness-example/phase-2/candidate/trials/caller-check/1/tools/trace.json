@@ -1,8 +1,21 @@
 [
   {
+    "tool": "list_files",
+    "arguments": {
+      "path": "."
+    }
+  },
+  {
+    "tool": "read_file",
+    "arguments": {
+      "path": "Vault.sol"
+    }
+  },
+  {
     "tool": "write_file",
     "arguments": {
-      "path": "findings.json"
+      "path": "findings.json",
+      "content": "{\n  \"findings\": [\n    {\n      \"function\": \"withdrawAll\",\n      \"vulnerable\": true,\n      \"issue\": \"tx.origin auth\",\n      \"detail\": \"withdrawAll uses tx.origin in a require statement for access control, which is vulnerable to phishing attacks where a malicious contract can trick the owner into calling it.\"\n    }\n  ]\n}\n"
     }
   }
 ]

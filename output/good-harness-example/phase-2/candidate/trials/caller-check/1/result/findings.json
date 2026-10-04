@@ -3,8 +3,8 @@
     {
       "function": "withdrawAll",
       "vulnerable": true,
-      "issue": "tx.origin",
-      "detail": "tx.origin in require is unsafe vs msg.sender."
+      "issue": "tx.origin auth",
+      "detail": "withdrawAll uses tx.origin in a require statement for access control, which is vulnerable to phishing attacks where a malicious contract can trick the owner into calling it."
     }
   ]
 }

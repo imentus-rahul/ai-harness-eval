@@ -1,9 +1,14 @@
 {
   "code_pass": false,
   "code_reason": "logTransfer: expected vulnerable=False got True",
-  "model_pass": false,
-  "model_reason": "mock rubric FAIL",
-  "model_raw": "FAIL",
+  "model_pass": true,
+  "model_reason": "PASS: The agent correctly distinguishes between a critical authorization vulnerability and a functional misidentification issue in logging.",
+  "model_raw": "PASS: The agent correctly distinguishes between a critical authorization vulnerability and a functional misidentification issue in logging.",
+  "model_grade_cost_usd": 0.00015,
+  "model_grade_tokens": {
+    "input": 180,
+    "output": 20
+  },
   "pass": false,
-  "model_disagreement": false
+  "model_disagreement": true
 }

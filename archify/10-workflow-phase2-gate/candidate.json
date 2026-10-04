@@ -6,7 +6,7 @@
   "output": "archify/10-workflow-phase2-gate/phase2-gate.html",
   "quality_profile": "showcase",
   "repository": {
-   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
    "link_mode": "local-only",
    "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
   }
@@ -47,8 +47,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 152,
-     "end_line": 165
+     "line": 87,
+     "end_line": 190
     }
    ]
   },
@@ -64,8 +64,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 12,
-     "end_line": 14
+     "line": 8,
+     "end_line": 22
     }
    ]
   },
@@ -81,8 +81,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 15,
-     "end_line": 17
+     "line": 8,
+     "end_line": 22
     }
    ]
   },
@@ -97,8 +97,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 18,
-     "end_line": 19
+     "line": 8,
+     "end_line": 22
     }
    ]
   },
@@ -114,8 +114,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 20,
-     "end_line": 27
+     "line": 8,
+     "end_line": 22
     }
    ]
   },
@@ -130,8 +130,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 165,
-     "end_line": 187
+     "line": 87,
+     "end_line": 190
     }
    ]
   },
@@ -147,8 +147,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 14,
-     "end_line": 14
+     "line": 8,
+     "end_line": 22
     },
     {
      "path": "output/bad-harness-example/summary.json",
@@ -168,8 +168,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 17,
-     "end_line": 17
+     "line": 8,
+     "end_line": 22
     }
    ]
   },
@@ -184,8 +184,8 @@
    "sources": [
     {
      "path": "src/eval/gate.py",
-     "line": 19,
-     "end_line": 19
+     "line": 8,
+     "end_line": 22
     }
    ]
   },
@@ -202,7 +202,7 @@
     {
      "path": "src/eval/run.py",
      "line": 191,
-     "end_line": 203
+     "end_line": 308
     }
    ]
   }

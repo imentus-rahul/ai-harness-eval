@@ -48,7 +48,11 @@ def compare_task(
     }
 
 
-def summarise(comparisons: list[dict[str, Any]]) -> dict[str, Any]:
+def summarise(
+    comparisons: list[dict[str, Any]],
+    *,
+    phase: str | None = None,
+) -> dict[str, Any]:
     improved = sum(1 for c in comparisons if c["transition"] == "IMPROVED")
     regressed = sum(1 for c in comparisons if c["transition"] == "REGRESSED")
     unstable = sum(1 for c in comparisons if c["transition"] == "UNSTABLE")
@@ -56,8 +60,24 @@ def summarise(comparisons: list[dict[str, Any]]) -> dict[str, Any]:
         verdict = "NEGATIVE"
     elif improved > 0 and regressed == 0:
         verdict = "POSITIVE"
-    else:
+    elif unstable > 0:
         verdict = "INCONCLUSIVE"
+    else:
+        capability = [c for c in comparisons if c.get("suite") == "capability"]
+        regression = [c for c in comparisons if c.get("suite") == "regression"]
+        cap_improved = any(c["transition"] == "IMPROVED" for c in capability)
+        cap_candidate_pass = bool(capability) and all(
+            c["candidate_outcome"] == "PASS" for c in capability
+        )
+        reg_candidate_pass = (not regression) or all(
+            c["candidate_outcome"] == "PASS" for c in regression
+        )
+        if cap_improved and reg_candidate_pass:
+            verdict = "POSITIVE"
+        elif phase == "phase-1":
+            verdict = "NEGATIVE"
+        else:
+            verdict = "INCONCLUSIVE"
     return {
         "verdict": verdict,
         "improved": improved,

@@ -24,3 +24,27 @@ def test_summarise_positive():
     ]
     s = summarise(comps)
     assert s["verdict"] == "POSITIVE"
+
+
+def test_phase1_unchanged_fail_is_negative():
+    comps = [
+        {
+            "transition": "UNCHANGED",
+            "task_id": "auth-vs-log",
+            "suite": "capability",
+            "baseline_outcome": "FAIL",
+            "candidate_outcome": "FAIL",
+            "baseline_passes": [False, False],
+            "candidate_passes": [False, False],
+        },
+        {
+            "transition": "UNCHANGED",
+            "task_id": "keep-suite",
+            "suite": "regression",
+            "baseline_outcome": "PASS",
+            "candidate_outcome": "PASS",
+            "baseline_passes": [True, True],
+            "candidate_passes": [True, True],
+        },
+    ]
+    assert summarise(comps, phase="phase-1")["verdict"] == "NEGATIVE"

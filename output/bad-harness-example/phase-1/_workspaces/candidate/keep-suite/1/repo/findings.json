@@ -1,10 +1,9 @@
 {
   "findings": [
     {
-      "function": "config",
-      "vulnerable": false,
-      "issue": "hardened",
-      "detail": "Tightened API_VERSION and MAX_RETRIES per skill."
+      "file": "app/config.py",
+      "issue": "config hardening",
+      "detail": "Hardened API_VERSION and MAX_RETRIES to production security standards."
     }
   ]
 }

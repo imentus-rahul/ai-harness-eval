@@ -1,8 +1,21 @@
 [
   {
+    "tool": "list_files",
+    "arguments": {
+      "path": "."
+    }
+  },
+  {
+    "tool": "read_file",
+    "arguments": {
+      "path": "Vault.sol"
+    }
+  },
+  {
     "tool": "write_file",
     "arguments": {
-      "path": "findings.json"
+      "path": "findings.json",
+      "content": "{\n  \"findings\": [\n    {\n      \"function\": \"deposit\",\n      \"vulnerable\": true,\n      \"issue\": \"msg.sender usage\",\n      \"detail\": \"Uses msg.sender to track balances, which is standard but flagged per instructions.\"\n    },\n    {\n      \"function\": \"withdrawAll\",\n      \"vulnerable\": true,\n      \"issue\": \"tx.origin usage\",\n      \"detail\": \"Uses tx.origin in a require statement for access control, which is vulnerable to phishing attacks.\"\n    }\n  ]\n}\n"
     }
   }
 ]

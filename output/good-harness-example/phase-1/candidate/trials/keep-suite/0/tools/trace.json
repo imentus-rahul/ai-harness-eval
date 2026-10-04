@@ -1,7 +1,20 @@
 [
   {
+    "tool": "list_files",
+    "arguments": {
+      "path": "."
+    }
+  },
+  {
+    "tool": "list_files",
+    "arguments": {
+      "path": "app"
+    }
+  },
+  {
     "tool": "write_file",
     "arguments": {
+      "content": "{\n  \"findings\": []\n}\n",
       "path": "findings.json"
     }
   }

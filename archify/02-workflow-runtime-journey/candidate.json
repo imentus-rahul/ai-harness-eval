@@ -6,7 +6,7 @@
   "output": "archify/02-workflow-runtime-journey/runtime-journey.html",
   "quality_profile": "showcase",
   "repository": {
-   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "url": "https://local.invalid/harness-eval/submission-improved.git",
    "link_mode": "local-only",
    "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
   }
@@ -82,8 +82,8 @@
     },
     {
      "path": "src/eval/run.py",
-     "line": 278,
-     "end_line": 307
+     "line": 191,
+     "end_line": 308
     }
    ]
   },
@@ -99,8 +99,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 111,
-     "end_line": 133
+     "line": 87,
+     "end_line": 190
     }
    ]
   },
@@ -115,8 +115,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 207,
-     "end_line": 244
+     "line": 191,
+     "end_line": 308
     }
    ]
   },
@@ -132,13 +132,13 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 246,
-     "end_line": 268
+     "line": 191,
+     "end_line": 308
     },
     {
      "path": "src/eval/compare.py",
      "line": 30,
-     "end_line": 67
+     "end_line": 50
     }
    ]
   },
@@ -153,8 +153,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 146,
-     "end_line": 158
+     "line": 87,
+     "end_line": 190
     },
     {
      "path": "src/eval/promote.py",
@@ -176,12 +176,12 @@
     {
      "path": "src/eval/gate.py",
      "line": 8,
-     "end_line": 27
+     "end_line": 22
     },
     {
      "path": "src/eval/run.py",
-     "line": 160,
-     "end_line": 165
+     "line": 87,
+     "end_line": 190
     }
    ]
   },
@@ -197,8 +197,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 43,
-     "end_line": 108
+     "line": 45,
+     "end_line": 53
     }
    ]
   },
@@ -214,7 +214,7 @@
     {
      "path": "src/eval/graders.py",
      "line": 135,
-     "end_line": 163
+     "end_line": 167
     }
    ]
   },
@@ -230,7 +230,7 @@
     {
      "path": "src/eval/config.py",
      "line": 32,
-     "end_line": 55
+     "end_line": 42
     },
     {
      "path": "eval.config.yaml",
@@ -251,8 +251,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 37,
-     "end_line": 40
+     "line": 45,
+     "end_line": 53
     },
     {
      "path": "tasks/registry.bootstrap.yaml",
@@ -272,7 +272,7 @@
    "sources": [
     {
      "path": "src/eval/promote.py",
-     "line": 50,
+     "line": 33,
      "end_line": 66
     }
    ]
@@ -289,7 +289,7 @@
     {
      "path": "src/eval/run.py",
      "line": 191,
-     "end_line": 199
+     "end_line": 308
     }
    ]
   },
@@ -305,8 +305,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 166,
-     "end_line": 187
+     "line": 87,
+     "end_line": 190
     }
    ]
   },
@@ -337,8 +337,8 @@
    "sources": [
     {
      "path": "src/eval/run.py",
-     "line": 189,
-     "end_line": 189
+     "line": 87,
+     "end_line": 190
     },
     {
      "path": "src/eval/report.py",
@@ -359,12 +359,12 @@
     {
      "path": "src/eval/run.py",
      "line": 191,
-     "end_line": 204
+     "end_line": 308
     },
     {
      "path": "src/eval/run.py",
-     "line": 340,
-     "end_line": 349
+     "line": 309,
+     "end_line": 422
     }
    ]
   }

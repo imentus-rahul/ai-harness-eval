@@ -1,2 +1,5 @@
-Audit Vault.sol. Write findings.json.
-For withdrawAll, decide if tx.origin in the require is appropriate or should be msg.sender only.
+Audit Vault.sol. Write findings.json before finishing.
+
+Include `withdrawAll` with boolean `vulnerable`:
+- `true` if `tx.origin` is used in the require for access control
+- `false` only if `tx.origin` is not used for authorization
