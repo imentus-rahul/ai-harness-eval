@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "2953a374-a98f-4798-92ee-a119b515b651",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/08-workflow-repeated-trials/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/08-workflow-repeated-trials/repeated-trials.html",
+  "specification": {
+    "sha256": "0149b13c1440e73dcbdc789e033a3bf0a59c8c6c4d43e5b488173ce187302286",
+    "bytes": 5655
+  },
+  "artifact": {
+    "sha256": "7d22b16c56b5662d6809ef62f27eec31865f12db9d97dbdd4cc0b618df66422e",
+    "bytes": 762899
+  }
+}

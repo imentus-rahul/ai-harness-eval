@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/candidate.json",
+    "sha256": "7b7138c4fe41706b2dc47fb72b091445b685886cf0ab072f1d64db1d88ea91c5",
+    "bytes": 6518
+  },
+  "artifact": {
+    "path": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/bad-candidate-journey.html",
+    "sha256": "6a69ec470c7ff1d4da9731ffe8e6edf10123bf03d2ed3c85ef6ae2f0bfa12493",
+    "bytes": 760103
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/bad-candidate-journey.finalize.json",
+    "summaryReceipt": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/bad-candidate-journey.finalize-summary.json",
+    "browserCheckReceipt": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/bad-candidate-journey.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-04T07:37:50.273Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3176,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 1,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "from": "atr",
+            "to": "verdict",
+            "label": "",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "bends": 4,
+          "stretch": 3.176
+        }
+      ],
+      "truncated": false
+    },
+    "hints": [
+      "atr → verdict needs 4 bends: move node atr or verdict so they share a row or column with matching centers, or sit diagonally with a clear corner."
+    ],
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}

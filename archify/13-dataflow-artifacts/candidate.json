@@ -1,0 +1,350 @@
+{
+ "schema_version": 1,
+ "diagram_type": "dataflow",
+ "meta": {
+  "title": "13 \u00b7 Artifact data flow \u2014 from task definition to output/summary.json",
+  "output": "archify/13-dataflow-artifacts/artifacts.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  },
+  "viewBox": [
+   1080,
+   640
+  ]
+ },
+ "stages": [
+  {
+   "label": "Inputs (repo)"
+  },
+  {
+   "label": "Trial workspace"
+  },
+  {
+   "label": "Per-trial artifacts"
+  },
+  {
+   "label": "Per-phase reports"
+  },
+  {
+   "label": "Scenario + global"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "task",
+   "type": "frontend",
+   "label": "tasks/<id>/",
+   "sublabel": "prompt.txt + repo/",
+   "stage": 0,
+   "row": 1,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 55,
+     "end_line": 63
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "guid",
+   "type": "frontend",
+   "label": "harnesses/",
+   "sublabel": "AGENTS.md | SKILL.md",
+   "stage": 1,
+   "row": 0,
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 20,
+     "end_line": 35
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "ws",
+   "type": "database",
+   "label": "workspace",
+   "sublabel": "_workspaces/\u2026/repo",
+   "stage": 1,
+   "row": 1,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 57,
+     "end_line": 64
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "mock",
+   "type": "frontend",
+   "label": "mocks/",
+   "sublabel": "dry-run only",
+   "stage": 1,
+   "row": 2,
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 184,
+     "end_line": 211
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "art",
+   "type": "database",
+   "label": "trials/<task>/<rep>/",
+   "sublabel": "transcript, findings, cost\u2026",
+   "stage": 2,
+   "row": 1,
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 38,
+     "end_line": 79
+    }
+   ],
+   "height": 58,
+   "width": 136
+  },
+  {
+   "id": "gr",
+   "type": "security",
+   "label": "grade.json",
+   "sublabel": "code_pass \u00b7 pass",
+   "stage": 2,
+   "row": 2,
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 43,
+     "end_line": 43
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "held",
+   "type": "security",
+   "label": "expected.json",
+   "sublabel": "heldout/ \u00b7 grade time",
+   "stage": 2,
+   "row": 3,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 88,
+     "end_line": 94
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "hr",
+   "type": "backend",
+   "label": "<arm>/README.md",
+   "sublabel": "pass/cost table",
+   "stage": 3,
+   "row": 1,
+   "sources": [
+    {
+     "path": "src/eval/report.py",
+     "line": 10,
+     "end_line": 30
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "cmp",
+   "type": "backend",
+   "label": "comparison/",
+   "sublabel": "result.json + README",
+   "stage": 3,
+   "row": 2,
+   "sources": [
+    {
+     "path": "src/eval/report.py",
+     "line": 33,
+     "end_line": 55
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "ps",
+   "type": "backend",
+   "label": "phase summary",
+   "sublabel": "verdict + counts",
+   "stage": 3,
+   "row": 3,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 266,
+     "end_line": 273
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "gs",
+   "type": "database",
+   "label": "output/summary",
+   "sublabel": "all scenarios",
+   "stage": 4,
+   "row": 2,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 340,
+     "end_line": 349
+    }
+   ],
+   "height": 58
+  },
+  {
+   "id": "es",
+   "type": "database",
+   "label": "<example>/summary",
+   "sublabel": "phases, promoted, block",
+   "stage": 4,
+   "row": 3,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 191,
+     "end_line": 203
+    }
+   ],
+   "height": 58
+  }
+ ],
+ "flows": [
+  {
+   "id": "f1",
+   "from": "task",
+   "to": "ws",
+   "label": "copy repo",
+   "variant": "emphasis"
+  },
+  {
+   "id": "f2",
+   "from": "guid",
+   "to": "ws",
+   "label": "copy_guidance",
+   "variant": "emphasis",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "labelDy": 25
+  },
+  {
+   "id": "f3",
+   "from": "mock",
+   "to": "ws",
+   "label": "dry-run",
+   "variant": "dashed",
+   "fromSide": "top",
+   "toSide": "bottom"
+  },
+  {
+   "id": "f4",
+   "from": "ws",
+   "to": "art",
+   "label": "persist",
+   "labelDy": -18,
+   "route": "straight"
+  },
+  {
+   "id": "f5",
+   "from": "ws",
+   "to": "gr",
+   "label": "grade",
+   "variant": "security"
+  },
+  {
+   "id": "f6",
+   "from": "held",
+   "to": "gr",
+   "label": "labels",
+   "variant": "security",
+   "fromSide": "top",
+   "toSide": "bottom"
+  },
+  {
+   "id": "f11",
+   "from": "art",
+   "to": "hr",
+   "label": "cost"
+  },
+  {
+   "id": "f9",
+   "from": "gr",
+   "to": "cmp",
+   "label": "pass",
+   "variant": "emphasis",
+   "labelDy": -18,
+   "route": "straight"
+  },
+  {
+   "id": "f10",
+   "from": "gr",
+   "to": "ps",
+   "label": "summarise"
+  },
+  {
+   "id": "f12",
+   "from": "ps",
+   "to": "es",
+   "label": "phase",
+   "variant": "emphasis"
+  },
+  {
+   "id": "f13",
+   "from": "es",
+   "to": "gs",
+   "label": "merge",
+   "variant": "emphasis",
+   "fromSide": "top",
+   "toSide": "bottom"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Who writes what",
+   "items": [
+    "trial.py write_trial_artifacts \u2192 transcript, grade, cost/usage, tools/trace, errors/execution.log, result/findings.json",
+    "report.py \u2192 <arm>/README.md, comparison/README.md + result.json, human_spot_check.md",
+    "run.py \u2192 phase summary.json, <example>/summary.json, output/summary.json"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "What each artifact answers",
+   "items": [
+    "transcript.json \u2014 what the agent said and which tools it called",
+    "grade.json \u2014 why it passed or failed (code_reason) and model disagreement",
+    "cost/usage.json \u2014 tokens, cost_usd, cost_source (reported|computed|mock), latency, TTFT",
+    "comparison/result.json \u2014 per-task transition between arms"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Lifecycle notes",
+   "items": [
+    "output/<example>/ is deleted and rebuilt on every run",
+    "_workspaces/ keep the post-agent repo for inspection (keep-suite overlay visible there)",
+    "errors/execution.log contains 'none' when no errors",
+    "human_spot_check.md is written per scenario by write_human_spot_check() (points at candidate findings)"
+   ]
+  }
+ ]
+}

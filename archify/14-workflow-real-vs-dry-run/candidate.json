@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "14 · Real run vs --dry-run — where the paths split and rejoin",
+    "output": "archify/14-workflow-real-vs-dry-run/real-vs-dry-run.html",
+    "quality_profile": "showcase",
+    "repository": { "url": "https://github.com/imentus-rahul/ai-harness-eval.git", "link_mode": "local-only", "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb" }
+  },
+  "lanes": [
+    { "id": "real", "label": "REAL RUN · OPENROUTER_API_KEY set" },
+    { "id": "shared", "label": "Shared by both paths" },
+    { "id": "dry", "label": "DRY RUN · --dry-run (no API calls)" }
+  ],
+  "mainPath": ["cli", "prep", "agent", "llm", "grade", "persist"],
+  "nodes": [
+    { "id": "cli", "lane": "shared", "col": 0, "type": "external", "label": "python -m eval", "sublabel": "key check unless --dry-run", "width": 164, "sources": [{ "path": "src/eval/run.py", "line": 302, "end_line": 307 }] },
+    { "id": "prep", "lane": "shared", "col": 1, "type": "backend", "label": "Prepare trial", "sublabel": "copy repo + guidance", "width": 164, "sources": [{ "path": "src/eval/run.py", "line": 55, "end_line": 64 }] },
+    { "id": "grade", "lane": "shared", "col": 4, "type": "security", "label": "grade_trial()", "sublabel": "same code graders", "width": 164, "sources": [{ "path": "src/eval/run.py", "line": 86, "end_line": 97 }] },
+    { "id": "persist", "lane": "shared", "col": 5, "type": "database", "label": "Artifacts + compare", "sublabel": "identical downstream", "width": 164, "sources": [{ "path": "src/eval/run.py", "line": 98, "end_line": 108 }] },
+
+    { "id": "agent", "lane": "real", "col": 2, "type": "backend", "label": "run_agent()", "sublabel": "≤8 turns · ≤$0.05", "width": 164, "sources": [{ "path": "src/eval/run.py", "line": 74, "end_line": 84 }] },
+    { "id": "llm", "lane": "real", "col": 3, "type": "external", "label": "OpenRouter LLM", "sublabel": "stochastic · tokens · cost", "tag": "temperature 0.2", "width": 164, "sources": [{ "path": "src/eval/openrouter.py", "line": 32, "end_line": 50 }] },
+
+    { "id": "mock", "lane": "dry", "col": 2, "type": "frontend", "label": "apply_mock_transcript()", "sublabel": "mocks/<arm-id>/<task>/", "width": 164, "sources": [{ "path": "src/eval/run.py", "line": 66, "end_line": 73 }, { "path": "src/eval/agent.py", "line": 178, "end_line": 197 }] },
+    { "id": "overlay", "lane": "dry", "col": 3, "type": "frontend", "label": "Copy findings + overlay", "sublabel": "cost 0 · cost_source mock", "tag": "deterministic", "width": 164, "sources": [{ "path": "src/eval/agent.py", "line": 203, "end_line": 223 }] }
+  ],
+  "edges": [
+    { "from": "cli", "to": "prep", "role": "main" },
+    { "from": "prep", "to": "agent", "role": "main", "label": "live" },
+    { "from": "agent", "to": "llm", "role": "main", "label": "chat()" },
+    { "from": "llm", "to": "grade", "role": "main", "label": "findings.json" },
+    { "from": "prep", "to": "mock", "role": "branch", "label": "dry_run", "variant": "dashed" },
+    { "from": "mock", "to": "overlay", "role": "main", "variant": "dashed" },
+    { "from": "overlay", "to": "grade", "role": "branch", "label": "findings.json", "variant": "dashed" },
+    { "from": "grade", "to": "persist", "role": "main" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "What mocks make deterministic", "items": ["findings.json per arm per task (mocks/baseline|good-candidate|bad-candidate/<task>/)", "Workspace side-effects via overlay/ (bad keep-suite rewrites app/config.py)", "Model rubric: mock rule — PASS iff logTransfer marked vulnerable: false", "Every committed output/ run is a dry run (dry_run: true, cost $0.00)"] },
+    { "dot": "emerald", "title": "What still runs for real in dry-run", "items": ["Workspace copy and guidance injection", "Code graders: real held-out comparison and a real pytest subprocess", "compare, promote (in-memory), gate, all reports"] },
+    { "dot": "amber", "title": "Differences to remember", "items": ["scenario: both → good + bad in dry-run; live runs good only", "Dry-run never writes tasks/registry.yaml", "Live output can differ from mocks — that is why REPS and UNSTABLE exist"] }
+  ]
+}

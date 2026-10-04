@@ -1,0 +1,265 @@
+{
+ "schema_version": 2,
+ "diagram_type": "lifecycle",
+ "meta": {
+  "title": "09 \u00b7 Lifecycle of a capability task \u2014 graduation into the regression suite",
+  "output": "archify/09-lifecycle-task-graduation/task-graduation.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "main",
+   "label": "Graduation path"
+  },
+  {
+   "id": "waiting",
+   "label": "Not yet eligible"
+  },
+  {
+   "id": "terminal",
+   "label": "Final suite membership"
+  }
+ ],
+ "states": [
+  {
+   "id": "boot",
+   "type": "start",
+   "label": "Capability",
+   "sublabel": "registry.bootstrap.yaml",
+   "lane": "main",
+   "col": 0,
+   "step": "01",
+   "tag": "suite: capability",
+   "sources": [
+    {
+     "path": "tasks/registry.bootstrap.yaml",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "measured",
+   "type": "active",
+   "label": "Measured",
+   "sublabel": "candidate passes \u00d7REPS",
+   "lane": "main",
+   "col": 1,
+   "step": "02",
+   "tag": "Phase 1",
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 146,
+     "end_line": 150
+    }
+   ]
+  },
+  {
+   "id": "check",
+   "type": "decision",
+   "label": "pass_hat_k?",
+   "sublabel": "n \u2265 k and successes \u2265 k",
+   "lane": "main",
+   "col": 2,
+   "step": "03",
+   "tag": "k = 2",
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 70,
+     "end_line": 73
+    },
+    {
+     "path": "src/eval/promote.py",
+     "line": 43,
+     "end_line": 49
+    }
+   ]
+  },
+  {
+   "id": "promoted",
+   "type": "waiting",
+   "label": "Promoted",
+   "sublabel": "returned in promoted[]",
+   "lane": "main",
+   "col": 3,
+   "step": "04",
+   "tag": "gate input",
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 50,
+     "end_line": 55
+    }
+   ]
+  },
+  {
+   "id": "regression",
+   "type": "success",
+   "label": "Regression gate",
+   "sublabel": "must keep passing",
+   "lane": "main",
+   "col": 4,
+   "step": "05",
+   "tag": "Phase 2",
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 166,
+     "end_line": 173
+    }
+   ]
+  },
+  {
+   "id": "stay",
+   "type": "waiting",
+   "label": "Stays capability",
+   "sublabel": "any candidate rep failed",
+   "lane": "waiting",
+   "col": 2,
+   "tag": "not promoted",
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 44,
+     "end_line": 49
+    }
+   ]
+  },
+  {
+   "id": "already",
+   "type": "neutral",
+   "label": "Already regression",
+   "sublabel": "skipped by promote",
+   "lane": "waiting",
+   "col": 3,
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 50,
+     "end_line": 52
+    }
+   ]
+  },
+  {
+   "id": "blockedstate",
+   "type": "failure",
+   "label": "Phase 2 blocked",
+   "sublabel": "nothing promoted",
+   "lane": "terminal",
+   "col": 2,
+   "tag": "gate reason 3",
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 18,
+     "end_line": 19
+    }
+   ]
+  },
+  {
+   "id": "persisted",
+   "type": "success",
+   "label": "registry.yaml",
+   "sublabel": "graduated_utc + run id",
+   "lane": "terminal",
+   "col": 4,
+   "tag": "live runs only",
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 54,
+     "end_line": 66
+    }
+   ]
+  }
+ ],
+ "transitions": [
+  {
+   "from": "boot",
+   "to": "measured",
+   "label": "run"
+  },
+  {
+   "from": "measured",
+   "to": "check"
+  },
+  {
+   "from": "check",
+   "to": "promoted",
+   "label": "2/2 pass",
+   "variant": "emphasis"
+  },
+  {
+   "from": "promoted",
+   "to": "regression",
+   "label": "gate ok"
+  },
+  {
+   "from": "check",
+   "to": "stay",
+   "label": "< 2",
+   "variant": "security"
+  },
+  {
+   "from": "stay",
+   "to": "blockedstate",
+   "variant": "security"
+  },
+  {
+   "from": "check",
+   "to": "already",
+   "variant": "dashed",
+   "label": "suite already regression"
+  },
+  {
+   "from": "regression",
+   "to": "persisted",
+   "variant": "dashed",
+   "label": "save"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "What graduation means here",
+   "items": [
+    "A capability task whose CANDIDATE trials passed in every rep (2/2)",
+    "Baseline results do not matter for graduation",
+    "pass_hat_k returns 1.0 or 0.0 \u2014 a strict all-reps-pass rule, not a probability"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Actual graduations in committed runs",
+   "items": [
+    "good scenario: auth-vs-log candidate [True, True] \u2192 promoted",
+    "Phase 2 then runs auth-vs-log as suite: regression",
+    "caller-check is Phase 2's new capability; no promotion step runs after Phase 2"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Actual non-graduation",
+   "items": [
+    "bad scenario: auth-vs-log candidate [False, False] \u2192 stays capability",
+    "promoted_tasks = [] in bad-harness-example/summary.json"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Persistence nuance",
+   "items": [
+    "Dry-run: promoted list returned, registry.yaml NOT written",
+    "Live: suite, graduated_utc, graduated_from_run written to tasks/registry.yaml",
+    "reset_registry() restores the bootstrap at the start of every scenario"
+   ]
+  }
+ ]
+}

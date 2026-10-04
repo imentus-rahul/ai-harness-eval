@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "98cd7aac-f6a7-49eb-869a-a7a806a8db9c",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/14-workflow-real-vs-dry-run/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/14-workflow-real-vs-dry-run/real-vs-dry-run.html",
+  "specification": {
+    "sha256": "83ec5ae88771dbdf6489de480a3aaf4e3984d06d66b94e2d96eeb43117752d02",
+    "bytes": 4195
+  },
+  "artifact": {
+    "sha256": "4ea2e9ee1cb6f4b0481b97e1db9926079900e58ce175c86f086a0692a63112ea",
+    "bytes": 758488
+  }
+}

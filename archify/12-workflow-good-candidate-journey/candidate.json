@@ -1,0 +1,355 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "12 \u00b7 Good candidate journey \u2014 graduate, then pass Phase 2",
+  "output": "archify/12-workflow-good-candidate-journey/good-candidate-journey.html",
+  "quality_profile": "showcase",
+  "legend": {
+   "mode": "hidden"
+  },
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "auth",
+   "label": "Phase 1 \u00b7 auth-vs-log (capability)"
+  },
+  {
+   "id": "keep",
+   "label": "Phase 1 \u00b7 keep-suite (regression)"
+  },
+  {
+   "id": "dec",
+   "label": "Compare \u2192 graduate \u2192 gate"
+  },
+  {
+   "id": "p2",
+   "label": "Phase 2 \u00b7 tasks run in sorted order"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-arms",
+   "label": "Arms (2 reps each)",
+   "fromCol": 0,
+   "toCol": 1
+  },
+  {
+   "id": "ph-cmp",
+   "label": "Transition",
+   "fromCol": 2,
+   "toCol": 2,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-dec",
+   "label": "Decision + Phase 2",
+   "fromCol": 3,
+   "toCol": 5,
+   "variant": "security"
+  }
+ ],
+ "mainPath": [
+  "ac",
+  "atr",
+  "verdict",
+  "promote",
+  "gate"
+ ],
+ "nodes": [
+  {
+   "id": "ab",
+   "lane": "auth",
+   "col": 0,
+   "type": "security",
+   "label": "Baseline FAIL \u00d72",
+   "sublabel": "logTransfer flagged (FP)",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/baseline/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "ac",
+   "lane": "auth",
+   "col": 1,
+   "type": "backend",
+   "label": "Candidate PASS \u00d72",
+   "sublabel": "held-out labels match",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/candidate/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "atr",
+   "lane": "auth",
+   "col": 2,
+   "type": "backend",
+   "label": "IMPROVED",
+   "sublabel": "FAIL \u2192 PASS",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/comparison/result.json",
+     "line": 12,
+     "end_line": 27
+    }
+   ]
+  },
+  {
+   "id": "kb",
+   "lane": "keep",
+   "col": 0,
+   "type": "backend",
+   "label": "Baseline PASS \u00d72",
+   "sublabel": "pytest 2 passed",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/baseline/trials/keep-suite/0/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "kc",
+   "lane": "keep",
+   "col": 1,
+   "type": "backend",
+   "label": "Candidate PASS \u00d72",
+   "sublabel": "tests untouched",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/candidate/trials/keep-suite/0/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "ktr",
+   "lane": "keep",
+   "col": 2,
+   "type": "frontend",
+   "label": "UNCHANGED",
+   "sublabel": "PASS \u2192 PASS",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/comparison/result.json",
+     "line": 28,
+     "end_line": 42
+    }
+   ]
+  },
+  {
+   "id": "verdict",
+   "lane": "dec",
+   "col": 3,
+   "type": "backend",
+   "label": "Phase 1 POSITIVE",
+   "sublabel": "1 improved \u00b7 0 regressed",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-1/summary.json",
+     "line": 1,
+     "end_line": 9
+    }
+   ]
+  },
+  {
+   "id": "promote",
+   "lane": "dec",
+   "col": 4,
+   "type": "backend",
+   "label": "auth-vs-log graduates",
+   "sublabel": "candidate 2/2 \u2192 regression",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/summary.json",
+     "line": 14,
+     "end_line": 16
+    }
+   ]
+  },
+  {
+   "id": "gate",
+   "lane": "dec",
+   "col": 5,
+   "type": "backend",
+   "label": "Gate returns None",
+   "sublabel": "Phase 2 allowed",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/summary.json",
+     "line": 17,
+     "end_line": 18
+    }
+   ]
+  },
+  {
+   "id": "q1",
+   "lane": "p2",
+   "col": 3,
+   "type": "backend",
+   "label": "auth-vs-log",
+   "sublabel": "regression \u00b7 IMPROVED",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-2/comparison/result.json",
+     "line": 12,
+     "end_line": 27
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "lane": "p2",
+   "col": 4,
+   "type": "backend",
+   "label": "caller-check",
+   "sublabel": "capability \u00b7 IMPROVED",
+   "tag": "model disagreed \u00d72",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-2/comparison/result.json",
+     "line": 28,
+     "end_line": 43
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "lane": "p2",
+   "col": 5,
+   "type": "backend",
+   "label": "keep-suite",
+   "sublabel": "regression \u00b7 UNCHANGED",
+   "tag": "Phase 2 POSITIVE",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/good-harness-example/phase-2/comparison/result.json",
+     "line": 44,
+     "end_line": 58
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "ab",
+   "to": "ac",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "ac",
+   "to": "atr",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "kb",
+   "to": "kc",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "kc",
+   "to": "ktr",
+   "role": "main"
+  },
+  {
+   "from": "atr",
+   "to": "verdict",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "ktr",
+   "to": "verdict",
+   "role": "branch"
+  },
+  {
+   "from": "verdict",
+   "to": "promote",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "promote",
+   "to": "gate",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "gate",
+   "to": "q1",
+   "role": "branch",
+   "variant": "emphasis",
+   "label": "run Phase 2"
+  },
+  {
+   "from": "q1",
+   "to": "q2",
+   "role": "main"
+  },
+  {
+   "from": "q2",
+   "to": "q3",
+   "role": "main"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "What the candidate got right",
+   "items": [
+    "withdraw \u2192 vulnerable: true ('tx.origin gates withdraw')",
+    "logTransfer \u2192 vulnerable: false ('Event logging, not authorization')",
+    "caller-check: withdrawAll flagged with 'tx.origin' in the issue",
+    "keep-suite: files left untouched, pytest green"
+   ]
+  },
+  {
+   "dot": "cyan",
+   "title": "Graduation + Phase 2",
+   "items": [
+    "Phase 1 promoted = [auth-vs-log]; registry suite flips to regression",
+    "Phase 2 tasks = sorted(regression \u222a {caller-check})",
+    "Phase 2 summary: POSITIVE \u00b7 2 improved \u00b7 0 regressed \u00b7 3 tasks"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Honest caveats",
+   "items": [
+    "caller-check model_disagreements = 2: dry-run mock rubric looks for logTransfer, which Vault.sol does not have",
+    "caller-check is not promoted: no promotion step runs after Phase 2",
+    "All results are dry-run mocks at n = 2, cost /bin/bash.00"
+   ]
+  }
+ ]
+}

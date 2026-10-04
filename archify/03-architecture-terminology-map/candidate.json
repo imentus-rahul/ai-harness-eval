@@ -1,0 +1,425 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "03 \u00b7 Model \u2260 Agent \u2260 Harness \u2014 where each term lives in this repo",
+  "output": "archify/03-architecture-terminology-map/terminology-map.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "components": [
+  {
+   "id": "task",
+   "type": "frontend",
+   "label": "Task",
+   "sublabel": "prompt.txt + repo/",
+   "tag": "tasks/<id>/",
+   "pos": [
+    30,
+    190
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "tasks/auth-vs-log/prompt.txt",
+     "line": 1,
+     "end_line": 2
+    },
+    {
+     "path": "src/eval/run.py",
+     "line": 55,
+     "end_line": 63
+    }
+   ]
+  },
+  {
+   "id": "trial",
+   "type": "backend",
+   "label": "Trial",
+   "sublabel": "fresh workspace per rep",
+   "tag": "rep 0 / rep 1",
+   "pos": [
+    270,
+    190
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 57,
+     "end_line": 64
+    },
+    {
+     "path": "src/eval/trial.py",
+     "line": 13,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "guidance",
+   "type": "security",
+   "label": "Guidance file",
+   "sublabel": "AGENTS.md or SKILL.md",
+   "tag": "the variable",
+   "pos": [
+    510,
+    60
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 20,
+     "end_line": 35
+    }
+   ]
+  },
+  {
+   "id": "agent",
+   "type": "backend",
+   "label": "Agent loop",
+   "sublabel": "run_agent() \u00b7 \u22648 turns",
+   "tag": "$0.05 budget",
+   "pos": [
+    510,
+    190
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 86,
+     "end_line": 160
+    }
+   ]
+  },
+  {
+   "id": "model",
+   "type": "external",
+   "label": "Model",
+   "sublabel": "OpenRouter \u00b7 Haiku 4.5",
+   "tag": "held constant",
+   "pos": [
+    750,
+    190
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 26,
+     "end_line": 29
+    },
+    {
+     "path": "src/eval/openrouter.py",
+     "line": 24,
+     "end_line": 50
+    }
+   ]
+  },
+  {
+   "id": "tools",
+   "type": "backend",
+   "label": "Tools",
+   "sublabel": "read \u00b7 list \u00b7 write",
+   "tag": "workspace-sandboxed",
+   "pos": [
+    510,
+    340
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 13,
+     "end_line": 53
+    },
+    {
+     "path": "src/eval/agent.py",
+     "line": 65,
+     "end_line": 83
+    }
+   ]
+  },
+  {
+   "id": "findings",
+   "type": "database",
+   "label": "findings.json",
+   "sublabel": "agent output",
+   "pos": [
+    750,
+    340
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 162,
+     "end_line": 163
+    }
+   ]
+  },
+  {
+   "id": "heldout",
+   "type": "database",
+   "label": "Held-out answers",
+   "sublabel": "heldout/expected.json",
+   "tag": "never copied",
+   "pos": [
+    990,
+    190
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "tasks/auth-vs-log/heldout/expected.json",
+     "line": 1,
+     "end_line": 6
+    },
+    {
+     "path": "src/eval/trial.py",
+     "line": 13,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "grader",
+   "type": "security",
+   "label": "Grader",
+   "sublabel": "code (gate) + model rubric",
+   "pos": [
+    990,
+    340
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 163
+    }
+   ]
+  },
+  {
+   "id": "compare",
+   "type": "backend",
+   "label": "Baseline vs Candidate",
+   "sublabel": "compare_task()",
+   "pos": [
+    990,
+    490
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/compare.py",
+     "line": 30,
+     "end_line": 48
+    }
+   ]
+  },
+  {
+   "id": "suites",
+   "type": "database",
+   "label": "Suites + phases",
+   "sublabel": "capability \u2192 regression",
+   "tag": "graduation",
+   "pos": [
+    990,
+    640
+   ],
+   "size": [
+    150,
+    64
+   ],
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 33,
+     "end_line": 66
+    },
+    {
+     "path": "tasks/registry.bootstrap.yaml",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "security-group",
+   "label": "Agent harness (what the experiment changes)",
+   "wraps": [
+    "guidance",
+    "agent",
+    "tools"
+   ]
+  },
+  {
+   "kind": "region",
+   "label": "Evaluation harness \u00b7 scoring (held constant)",
+   "wraps": [
+    "heldout",
+    "grader",
+    "compare",
+    "suites"
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "c-task-trial",
+   "from": "task",
+   "to": "trial",
+   "label": "copy repo"
+  },
+  {
+   "id": "c-trial-agent",
+   "from": "trial",
+   "to": "agent",
+   "label": "prompt",
+   "variant": "emphasis"
+  },
+  {
+   "id": "c-guid-agent",
+   "from": "guidance",
+   "to": "agent",
+   "label": "system prompt",
+   "variant": "security"
+  },
+  {
+   "id": "c-agent-model",
+   "from": "agent",
+   "to": "model",
+   "label": "chat()",
+   "variant": "emphasis"
+  },
+  {
+   "id": "c-agent-tools",
+   "from": "agent",
+   "to": "tools",
+   "label": "tool calls"
+  },
+  {
+   "id": "c-tools-find",
+   "from": "tools",
+   "to": "findings",
+   "label": "write_file"
+  },
+  {
+   "id": "c-find-grader",
+   "from": "findings",
+   "to": "grader",
+   "label": "read"
+  },
+  {
+   "id": "c-held-grader",
+   "from": "heldout",
+   "to": "grader",
+   "label": "labels",
+   "variant": "dashed"
+  },
+  {
+   "id": "c-grader-compare",
+   "from": "grader",
+   "to": "compare",
+   "label": "pass"
+  },
+  {
+   "id": "c-compare-suites",
+   "from": "compare",
+   "to": "suites",
+   "label": "graduate"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Model \u00b7 Agent \u00b7 Harness",
+   "items": [
+    "Model \u2014 the LLM behind OpenRouter (anthropic/claude-haiku-4.5 default)",
+    "Agent \u2014 model + execution loop + tools acting on a workspace (run_agent)",
+    "Harness \u2014 everything around the model: guidance, tools, loop, budgets",
+    "Model \u2260 Agent \u2260 Harness: this repo changes ONLY the harness guidance"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "Prompts + guidance",
+   "items": [
+    "Prompt \u2014 the task instruction, tasks/<id>/prompt.txt (user message)",
+    "System prompt \u2014 guidance text + 'You must use tools\u2026 write findings.json'",
+    "AGENTS.md \u2014 repo-level baseline instructions (harnesses/baseline/)",
+    "SKILL.md \u2014 a focused capability skill (good-candidate / bad-candidate)"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Tools + context",
+   "items": [
+    "Tools \u2014 read_file, list_files, write_file; paths cannot escape the workspace",
+    "MCP / external context \u2014 NOT implemented here (no MCP servers, no web)",
+    "Context the agent gets = system prompt + task prompt + files it reads"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Evaluation vocabulary",
+   "items": [
+    "Task \u2014 prompt + repo + held-out success criteria",
+    "Trial \u2014 one arm on one task in an isolated workspace",
+    "Repetition \u2014 REPS = 2 trials per task per arm",
+    "Grader \u2014 code (authoritative) or model rubric (evidence)",
+    "Baseline / Candidate \u2014 the two arms compared on identical tasks"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Suites, graduation, phases",
+   "items": [
+    "Capability suite \u2014 what the candidate is learning (auth-vs-log, caller-check)",
+    "Regression suite \u2014 must keep passing (keep-suite)",
+    "Graduation \u2014 capability task passed every candidate rep \u2192 becomes regression",
+    "Phase \u2014 one full baseline-vs-candidate pass; Phase 2 runs only if the gate allows",
+    "Evaluation harness \u2014 this repo: runs trials, grades, compares, gates"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,227 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "04 \u00b7 Wallet.sol \u2014 tx.origin as authorization vs tx.origin as logging",
+  "output": "archify/04-sequence-tx-origin-solidity/tx-origin-solidity.html",
+  "viewBox": [
+   1080,
+   620
+  ],
+  "column_fit": "spread",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "participants": [
+  {
+   "id": "owner",
+   "type": "external",
+   "label": "Owner EOA",
+   "sublabel": "deployed Wallet",
+   "sources": [
+    {
+     "path": "tasks/auth-vs-log/repo/Wallet.sol",
+     "line": 8,
+     "end_line": 10
+    }
+   ]
+  },
+  {
+   "id": "phish",
+   "type": "security",
+   "label": "Malicious contract",
+   "sublabel": "illustrative attacker"
+  },
+  {
+   "id": "withdraw",
+   "type": "backend",
+   "label": "withdraw()",
+   "sublabel": "require(tx.origin == owner)",
+   "sources": [
+    {
+     "path": "tasks/auth-vs-log/repo/Wallet.sol",
+     "line": 12,
+     "end_line": 15
+    }
+   ]
+  },
+  {
+   "id": "logfn",
+   "type": "backend",
+   "label": "logTransfer()",
+   "sublabel": "emit with tx.origin",
+   "sources": [
+    {
+     "path": "tasks/auth-vs-log/repo/Wallet.sol",
+     "line": 17,
+     "end_line": 19
+    }
+   ]
+  },
+  {
+   "id": "events",
+   "type": "database",
+   "label": "Event log",
+   "sublabel": "TransferLogged",
+   "sources": [
+    {
+     "path": "tasks/auth-vs-log/repo/Wallet.sol",
+     "line": 6,
+     "end_line": 6
+    }
+   ]
+  }
+ ],
+ "segments": [
+  {
+   "from": 180,
+   "to": 320,
+   "label": "Vulnerable: tx.origin gates authorization"
+  },
+  {
+   "from": 330,
+   "to": 410,
+   "label": "Secure: msg.sender check"
+  },
+  {
+   "from": 420,
+   "to": 510,
+   "label": "Not a finding: logging only"
+  }
+ ],
+ "messages": [
+  {
+   "id": "m1",
+   "from": "owner",
+   "to": "phish",
+   "y": 195,
+   "label": "owner signs an innocent-looking call",
+   "variant": "default"
+  },
+  {
+   "id": "m2",
+   "from": "phish",
+   "to": "withdraw",
+   "y": 225,
+   "label": "withdraw(amount)",
+   "variant": "emphasis",
+   "note": "msg.sender = malicious contract \u00b7 tx.origin = owner"
+  },
+  {
+   "id": "m3",
+   "from": "withdraw",
+   "to": "phish",
+   "y": 265,
+   "label": "tx.origin == owner \u2192 check PASSES",
+   "variant": "security"
+  },
+  {
+   "id": "m4",
+   "from": "withdraw",
+   "to": "owner",
+   "y": 298,
+   "label": "transfer(amount) runs without owner intent",
+   "variant": "dashed"
+  },
+  {
+   "id": "m5",
+   "from": "phish",
+   "to": "withdraw",
+   "y": 348,
+   "label": "withdraw(amount) with msg.sender == owner",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m6",
+   "from": "withdraw",
+   "to": "phish",
+   "y": 382,
+   "label": "revert \"not owner\"",
+   "variant": "return"
+  },
+  {
+   "id": "m7",
+   "from": "owner",
+   "to": "logfn",
+   "y": 440,
+   "label": "logTransfer(to)",
+   "variant": "default"
+  },
+  {
+   "id": "m8",
+   "from": "logfn",
+   "to": "events",
+   "y": 472,
+   "label": "emit TransferLogged(tx.origin, to)",
+   "variant": "dashed",
+   "note": "records who started the tx; grants nothing"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "phish",
+   "from": 190,
+   "to": 270
+  },
+  {
+   "participant": "withdraw",
+   "from": 220,
+   "to": 304,
+   "type": "backend"
+  },
+  {
+   "participant": "withdraw",
+   "from": 343,
+   "to": 388,
+   "type": "backend"
+  },
+  {
+   "participant": "logfn",
+   "from": 435,
+   "to": 478,
+   "type": "backend"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "rose",
+   "title": "Authorization vulnerability (withdraw)",
+   "items": [
+    "tx.origin is the EOA that started the whole transaction, not the direct caller",
+    "Any contract the owner interacts with can call withdraw() and pass the check",
+    "Held-out label: withdraw \u2192 vulnerable: true",
+    "In this toy contract funds still go to owner; the bug is the bypassed authorization"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Logging-only use (logTransfer)",
+   "items": [
+    "tx.origin only appears in an emitted event; no require, no state, no funds",
+    "Held-out label: logTransfer \u2192 vulnerable: false",
+    "Flagging it is a FALSE POSITIVE"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Why 'tx.origin is bad' is not enough",
+   "items": [
+    "A blanket rule flags both functions \u2192 baseline FAILS the code grader",
+    "A correct audit must classify by ROLE: gate vs telemetry",
+    "Secure fix for withdraw: require(msg.sender == owner)"
+   ]
+  },
+  {
+   "dot": "slate",
+   "title": "Labelled as illustrative",
+   "items": [
+    "The malicious contract is not in the repo; it explains the attack class",
+    "Wallet.sol, withdraw, logTransfer and expected.json are actual repo files"
+   ]
+  }
+ ]
+}

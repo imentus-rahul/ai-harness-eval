@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "17c5af09-5700-442b-9233-59eb0fca402b",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/13-dataflow-artifacts/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/13-dataflow-artifacts/artifacts.html",
+  "specification": {
+    "sha256": "32598a40d0b578045a103705fef23781624dc9b628fec5c9228546c3875fc66a",
+    "bytes": 6495
+  },
+  "artifact": {
+    "sha256": "c441e11dbfea81f5b5ae084739ffae2fb5694fd1323d754db894ed35b97d6b6b",
+    "bytes": 765778
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "d4a90026-9622-4882-bb17-c889ad9bfd4b",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/07-workflow-graders/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/07-workflow-graders/graders.html",
+  "specification": {
+    "sha256": "ed04c7d186474dfad9fd5b596e4dbb70fdd3a947a14d11017c56bd7585df0b1d",
+    "bytes": 5837
+  },
+  "artifact": {
+    "sha256": "e2ed70964570c56c46f6ff19a36b0e4283c2e6f7dde8c4837737b8133cc39210",
+    "bytes": 765630
+  }
+}

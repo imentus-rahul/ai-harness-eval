@@ -1,0 +1,531 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "02 \u00b7 End-to-end runtime journey of python -m eval",
+  "output": "archify/02-workflow-runtime-journey/runtime-journey.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "orch",
+   "label": "Orchestrator \u00b7 run.py"
+  },
+  {
+   "id": "trial",
+   "label": "Trial execution (per task \u00d7 rep \u00d7 arm)"
+  },
+  {
+   "id": "conf",
+   "label": "Config + task registry"
+  },
+  {
+   "id": "outcome",
+   "label": "Gate outcome",
+   "variant": "exception"
+  },
+  {
+   "id": "disk",
+   "label": "Persisted under output/<example>/"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-setup",
+   "label": "Setup",
+   "fromCol": 0,
+   "toCol": 1
+  },
+  {
+   "id": "ph-one",
+   "label": "Phase 1",
+   "fromCol": 2,
+   "toCol": 3,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-dec",
+   "label": "Graduate + gate",
+   "fromCol": 4,
+   "toCol": 5,
+   "variant": "security"
+  }
+ ],
+ "mainPath": [
+  "entry",
+  "scenario",
+  "p1",
+  "compare",
+  "promote",
+  "gate"
+ ],
+ "nodes": [
+  {
+   "id": "entry",
+   "lane": "orch",
+   "col": 0,
+   "type": "external",
+   "label": "python -m eval",
+   "sublabel": "run.main() \u00b7 argparse",
+   "tag": "--dry-run \u00b7 --scenario",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/__main__.py",
+     "line": 1,
+     "end_line": 4
+    },
+    {
+     "path": "src/eval/run.py",
+     "line": 278,
+     "end_line": 307
+    }
+   ]
+  },
+  {
+   "id": "scenario",
+   "lane": "orch",
+   "col": 1,
+   "type": "backend",
+   "label": "Scenario",
+   "sublabel": "run_scenario_fixed()",
+   "tag": "candidate_id chosen",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 111,
+     "end_line": 133
+    }
+   ]
+  },
+  {
+   "id": "p1",
+   "lane": "orch",
+   "col": 2,
+   "type": "backend",
+   "label": "Phase 1",
+   "sublabel": "run_phase_under()",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 207,
+     "end_line": 244
+    }
+   ]
+  },
+  {
+   "id": "compare",
+   "lane": "orch",
+   "col": 3,
+   "type": "backend",
+   "label": "Compare arms",
+   "sublabel": "compare_task() + summarise()",
+   "tag": "transition per task",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 246,
+     "end_line": 268
+    },
+    {
+     "path": "src/eval/compare.py",
+     "line": 30,
+     "end_line": 67
+    }
+   ]
+  },
+  {
+   "id": "promote",
+   "lane": "orch",
+   "col": 4,
+   "type": "backend",
+   "label": "Graduate",
+   "sublabel": "promote_capability_tasks()",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 146,
+     "end_line": 158
+    },
+    {
+     "path": "src/eval/promote.py",
+     "line": 33,
+     "end_line": 66
+    }
+   ]
+  },
+  {
+   "id": "gate",
+   "lane": "orch",
+   "col": 5,
+   "type": "security",
+   "label": "Phase 2 gate",
+   "sublabel": "phase2_blocked_reason()",
+   "tag": "decision",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 8,
+     "end_line": 27
+    },
+    {
+     "path": "src/eval/run.py",
+     "line": 160,
+     "end_line": 165
+    }
+   ]
+  },
+  {
+   "id": "trials",
+   "lane": "trial",
+   "col": 2,
+   "type": "backend",
+   "label": "Trials \u00d78",
+   "sublabel": "run_one_trial()",
+   "tag": "2 tasks \u00d7 2 reps \u00d7 2 arms",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 43,
+     "end_line": 108
+    }
+   ]
+  },
+  {
+   "id": "grade",
+   "lane": "trial",
+   "col": 3,
+   "type": "security",
+   "label": "Grade",
+   "sublabel": "grade_trial() \u00b7 pass=code",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 163
+    }
+   ]
+  },
+  {
+   "id": "config",
+   "lane": "conf",
+   "col": 0,
+   "type": "backend",
+   "label": "Config",
+   "sublabel": "resolve_scenarios()",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/config.py",
+     "line": 32,
+     "end_line": 55
+    },
+    {
+     "path": "eval.config.yaml",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "reset",
+   "lane": "conf",
+   "col": 1,
+   "type": "database",
+   "label": "Reset suites",
+   "sublabel": "reset_registry()",
+   "tag": "auth-vs-log \u00b7 keep-suite",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 37,
+     "end_line": 40
+    },
+    {
+     "path": "tasks/registry.bootstrap.yaml",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "registry",
+   "lane": "conf",
+   "col": 4,
+   "type": "database",
+   "label": "registry.yaml",
+   "sublabel": "suite: regression (live)",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/promote.py",
+     "line": 50,
+     "end_line": 66
+    }
+   ]
+  },
+  {
+   "id": "blocked",
+   "lane": "outcome",
+   "col": 4,
+   "type": "security",
+   "label": "Phase 2 skipped",
+   "sublabel": "reason \u2192 summary.json",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 191,
+     "end_line": 199
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "lane": "outcome",
+   "col": 5,
+   "type": "backend",
+   "label": "Phase 2",
+   "sublabel": "run_phase_under()",
+   "tag": "promoted + caller-check",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 166,
+     "end_line": 187
+    }
+   ]
+  },
+  {
+   "id": "artifacts",
+   "lane": "disk",
+   "col": 2,
+   "type": "database",
+   "label": "Trial artifacts",
+   "sublabel": "write_trial_artifacts()",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 38,
+     "end_line": 79
+    }
+   ]
+  },
+  {
+   "id": "spot",
+   "lane": "disk",
+   "col": 4,
+   "type": "frontend",
+   "label": "Spot-check",
+   "sublabel": "human_spot_check.md",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 189,
+     "end_line": 189
+    },
+    {
+     "path": "src/eval/report.py",
+     "line": 58,
+     "end_line": 78
+    }
+   ]
+  },
+  {
+   "id": "summary",
+   "lane": "disk",
+   "col": 5,
+   "type": "database",
+   "label": "summary.json",
+   "sublabel": "<example>/ + output/",
+   "width": 168,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 191,
+     "end_line": 204
+    },
+    {
+     "path": "src/eval/run.py",
+     "line": 340,
+     "end_line": 349
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "entry",
+   "to": "scenario",
+   "role": "main",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "from": "scenario",
+   "to": "p1",
+   "role": "main",
+   "variant": "emphasis",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "from": "p1",
+   "to": "compare",
+   "role": "main",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "from": "compare",
+   "to": "promote",
+   "role": "main",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "from": "promote",
+   "to": "gate",
+   "role": "main",
+   "variant": "security",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "from": "entry",
+   "to": "config",
+   "role": "branch",
+   "label": "load config"
+  },
+  {
+   "from": "scenario",
+   "to": "reset",
+   "role": "branch",
+   "label": "reset suites"
+  },
+  {
+   "from": "p1",
+   "to": "trials",
+   "role": "branch",
+   "label": "loop"
+  },
+  {
+   "from": "trials",
+   "to": "grade",
+   "role": "main",
+   "fromSide": "right",
+   "toSide": "left"
+  },
+  {
+   "from": "grade",
+   "to": "compare",
+   "role": "branch",
+   "label": "pass: bool",
+   "fromSide": "top",
+   "toSide": "bottom"
+  },
+  {
+   "from": "trials",
+   "to": "artifacts",
+   "role": "branch",
+   "variant": "dashed",
+   "label": "persist"
+  },
+  {
+   "from": "promote",
+   "to": "registry",
+   "role": "branch",
+   "variant": "dashed",
+   "label": "save (not dry-run)"
+  },
+  {
+   "from": "gate",
+   "to": "p2",
+   "role": "main",
+   "label": "eligible",
+   "variant": "emphasis",
+   "fromSide": "bottom",
+   "toSide": "top"
+  },
+  {
+   "from": "gate",
+   "to": "blocked",
+   "role": "error",
+   "label": "blocked",
+   "variant": "security"
+  },
+  {
+   "from": "blocked",
+   "to": "spot",
+   "role": "branch",
+   "variant": "dashed"
+  },
+  {
+   "from": "p2",
+   "to": "summary",
+   "role": "main"
+  },
+  {
+   "from": "spot",
+   "to": "summary",
+   "role": "main"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Fixed constants (run.py L26-30)",
+   "items": [
+    "REPS = 2 repetitions per task per arm",
+    "DEFAULT_MODEL = anthropic/claude-haiku-4.5",
+    "MAX_COST_PER_TRIAL = $0.05 \u00b7 max_turns = 8",
+    "PHASE2_CAPABILITY = caller-check"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "Where baseline and candidate diverge",
+   "items": [
+    "Only inside run_one_trial \u2192 copy_guidance()",
+    "baseline gets harnesses/baseline/AGENTS.md",
+    "candidate gets harnesses/<candidate_id>/SKILL.md",
+    "Model, tools, prompt, graders are identical"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Decision points",
+   "items": [
+    "compare: outcome_from_reps \u2192 transition",
+    "promote: candidate passed every capability rep",
+    "gate: REGRESSED \u00b7 regression FAIL \u00b7 nothing promoted \u2192 block",
+    "run_phase_under also writes comparison/result.json + READMEs (diagram 13)"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Dry-run nuances",
+   "items": [
+    "scenario: both \u2192 good + bad only with --dry-run (live runs good only)",
+    "registry.yaml is not written in dry-run; Phase 2 suite is built in memory",
+    "human_spot_check.md is written in both outcomes"
+   ]
+  }
+ ]
+}

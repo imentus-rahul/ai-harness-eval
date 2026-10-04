@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "49e4c418-4061-4834-ae36-08265d94e10c",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/15-architecture-five-minute-summary/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/15-architecture-five-minute-summary/five-minute-summary.html",
+  "specification": {
+    "sha256": "79973a6c0a011a2976f29927a1fb6dc0987a0496c2130821139ebfa2b8fa2a93",
+    "bytes": 4734
+  },
+  "artifact": {
+    "sha256": "d3c4d1f7a819783e7c9fb550bc6a3f9df11194a4cfd9a96d542d0b6b975c395f",
+    "bytes": 763816
+  }
+}

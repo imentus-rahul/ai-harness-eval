@@ -1,0 +1,324 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "10 \u00b7 Phase 2 gate \u2014 phase2_blocked_reason() test by test",
+  "output": "archify/10-workflow-phase2-gate/phase2-gate.html",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "chk",
+   "label": "Checks, in code order (first failing check wins)"
+  },
+  {
+   "id": "blk",
+   "label": "BLOCK \u00b7 returned reason string",
+   "variant": "exception"
+  },
+  {
+   "id": "out",
+   "label": "Outcome",
+   "variant": "exception"
+  }
+ ],
+ "mainPath": [
+  "inp",
+  "q1",
+  "q2",
+  "q3",
+  "allow",
+  "p2"
+ ],
+ "nodes": [
+  {
+   "id": "inp",
+   "lane": "chk",
+   "col": 0,
+   "type": "database",
+   "label": "Phase 1 results",
+   "sublabel": "comparisons + promoted[]",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 152,
+     "end_line": 165
+    }
+   ]
+  },
+  {
+   "id": "q1",
+   "lane": "chk",
+   "col": 1,
+   "type": "security",
+   "label": "1 \u00b7 Any REGRESSED?",
+   "sublabel": "transition == REGRESSED",
+   "tag": "per comparison row",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 12,
+     "end_line": 14
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "lane": "chk",
+   "col": 2,
+   "type": "security",
+   "label": "2 \u00b7 Regression FAIL?",
+   "sublabel": "suite=regression, cand FAIL",
+   "tag": "same row loop",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 15,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "lane": "chk",
+   "col": 3,
+   "type": "security",
+   "label": "3 \u00b7 Anything promoted?",
+   "sublabel": "promoted list non-empty",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 18,
+     "end_line": 19
+    }
+   ]
+  },
+  {
+   "id": "allow",
+   "lane": "chk",
+   "col": 4,
+   "type": "backend",
+   "label": "return None",
+   "sublabel": "phase2_eligible() = True",
+   "tag": "good scenario",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 20,
+     "end_line": 27
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "lane": "chk",
+   "col": 5,
+   "type": "backend",
+   "label": "Phase 2 runs",
+   "sublabel": "regression + caller-check",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 165,
+     "end_line": 187
+    }
+   ]
+  },
+  {
+   "id": "r1",
+   "lane": "blk",
+   "col": 1,
+   "type": "security",
+   "label": "regressed",
+   "sublabel": "'\u2026 regressed (PASS\u2192FAIL)'",
+   "tag": "bad: keep-suite",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 14,
+     "end_line": 14
+    },
+    {
+     "path": "output/bad-harness-example/summary.json",
+     "line": 15,
+     "end_line": 18
+    }
+   ]
+  },
+  {
+   "id": "r2",
+   "lane": "blk",
+   "col": 2,
+   "type": "security",
+   "label": "candidate failed",
+   "sublabel": "'\u2026 candidate failed'",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 17,
+     "end_line": 17
+    }
+   ]
+  },
+  {
+   "id": "r3",
+   "lane": "blk",
+   "col": 3,
+   "type": "security",
+   "label": "graduation not met",
+   "sublabel": "'capability graduation \u2026'",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/gate.py",
+     "line": 19,
+     "end_line": 19
+    }
+   ]
+  },
+  {
+   "id": "skip",
+   "lane": "out",
+   "col": 2,
+   "type": "database",
+   "label": "Phase 2 skipped",
+   "sublabel": "phase_2_blocked_reason",
+   "tag": "no phase-2/ folder",
+   "width": 164,
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 191,
+     "end_line": 203
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "inp",
+   "to": "q1",
+   "role": "main"
+  },
+  {
+   "from": "q1",
+   "to": "q2",
+   "role": "main",
+   "label": "no"
+  },
+  {
+   "from": "q2",
+   "to": "q3",
+   "role": "main",
+   "label": "no"
+  },
+  {
+   "from": "q3",
+   "to": "allow",
+   "role": "main",
+   "label": "yes",
+   "variant": "emphasis"
+  },
+  {
+   "from": "allow",
+   "to": "p2",
+   "role": "main",
+   "variant": "emphasis"
+  },
+  {
+   "from": "q1",
+   "to": "r1",
+   "role": "error",
+   "label": "yes",
+   "variant": "security"
+  },
+  {
+   "from": "q2",
+   "to": "r2",
+   "role": "error",
+   "label": "yes",
+   "variant": "security"
+  },
+  {
+   "from": "q3",
+   "to": "r3",
+   "role": "error",
+   "label": "no",
+   "variant": "security"
+  },
+  {
+   "from": "r1",
+   "to": "skip",
+   "role": "branch",
+   "variant": "security",
+   "fromSide": "bottom",
+   "toSide": "left"
+  },
+  {
+   "from": "r2",
+   "to": "skip",
+   "role": "branch",
+   "variant": "security",
+   "fromSide": "bottom",
+   "toSide": "top"
+  },
+  {
+   "from": "r3",
+   "to": "skip",
+   "role": "branch",
+   "variant": "security",
+   "fromSide": "bottom",
+   "toSide": "right"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "rose",
+   "title": "Test \u2192 failing result \u2192 what happens",
+   "items": [
+    "1 \u00b7 a task's transition is REGRESSED (baseline PASS, candidate FAIL) \u2192 block, Phase 2 never runs",
+    "2 \u00b7 a regression-suite task's candidate outcome is FAIL (even if baseline also failed) \u2192 block",
+    "3 \u00b7 no capability task graduated (promoted == []) \u2192 block",
+    "Every block: summary.json gets phase_2_blocked_reason, phase_2 = null"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Evaluation order details",
+   "items": [
+    "Checks 1 and 2 run inside one loop over comparison rows, row by row",
+    "Bad scenario: auth-vs-log row is UNCHANGED, then keep-suite row hits check 1",
+    "Actual reason: 'regression task keep-suite regressed (PASS\u2192FAIL)'",
+    "All three block paths end in the same 'Phase 2 skipped' outcome"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Good scenario",
+   "items": [
+    "auth-vs-log IMPROVED, keep-suite UNCHANGED/PASS, promoted = [auth-vs-log]",
+    "All checks pass \u2192 Phase 2 runs with auth-vs-log as regression + caller-check"
+   ]
+  },
+  {
+   "dot": "slate",
+   "title": "Implementation quirk (as written)",
+   "items": [
+    "Check 1 message says 'regression task' for ANY regressed row, including capability tasks"
+   ]
+  }
+ ]
+}

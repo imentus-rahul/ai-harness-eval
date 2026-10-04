@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "803ded55-473e-40ef-91d0-214bf36bdfde",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/11-workflow-bad-candidate-journey/bad-candidate-journey.html",
+  "specification": {
+    "sha256": "39cff9f67a32991e3a13df4febbf3e08191a283eebed1a7ce34d6fba76be5a3b",
+    "bytes": 6584
+  },
+  "artifact": {
+    "sha256": "0c494d3ee6bee2b9c5bad7fffe961485a34b7f7ba461ac20602f71d1e4910d96",
+    "bytes": 759977
+  }
+}

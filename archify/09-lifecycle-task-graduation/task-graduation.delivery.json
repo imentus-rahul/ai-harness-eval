@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "e94737f3-4a42-4433-8c55-f16689fe4583",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/09-lifecycle-task-graduation/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/09-lifecycle-task-graduation/task-graduation.html",
+  "specification": {
+    "sha256": "b80ba055adfdbd36f08d18359bd7dada4ef403153549d22779482e7193084649",
+    "bytes": 5252
+  },
+  "artifact": {
+    "sha256": "eb1331c2ad140cae8ea0964eb7ee4c300e498b67e4e63387d600889112e217c0",
+    "bytes": 764787
+  }
+}

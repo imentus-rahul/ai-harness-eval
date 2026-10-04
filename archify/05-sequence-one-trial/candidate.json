@@ -1,0 +1,282 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "05 \u00b7 One trial, function by function \u2014 run_one_trial()",
+  "output": "archify/05-sequence-one-trial/one-trial.html",
+  "viewBox": [
+   1080,
+   680
+  ],
+  "column_fit": "spread",
+  "quality_profile": "showcase",
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "participants": [
+  {
+   "id": "run",
+   "type": "backend",
+   "label": "run.py",
+   "sublabel": "run_one_trial()",
+   "sources": [
+    {
+     "path": "src/eval/run.py",
+     "line": 43,
+     "end_line": 108
+    }
+   ]
+  },
+  {
+   "id": "trial",
+   "type": "backend",
+   "label": "trial.py",
+   "sublabel": "workspace + artifacts",
+   "sources": [
+    {
+     "path": "src/eval/trial.py",
+     "line": 13,
+     "end_line": 79
+    }
+   ]
+  },
+  {
+   "id": "agent",
+   "type": "backend",
+   "label": "agent.py",
+   "sublabel": "run_agent()",
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 86,
+     "end_line": 175
+    }
+   ]
+  },
+  {
+   "id": "llm",
+   "type": "external",
+   "label": "OpenRouter",
+   "sublabel": "chat() \u00b7 stream",
+   "sources": [
+    {
+     "path": "src/eval/openrouter.py",
+     "line": 24,
+     "end_line": 111
+    }
+   ]
+  },
+  {
+   "id": "ws",
+   "type": "database",
+   "label": "Workspace",
+   "sublabel": "run_tool()",
+   "sources": [
+    {
+     "path": "src/eval/agent.py",
+     "line": 65,
+     "end_line": 83
+    }
+   ]
+  },
+  {
+   "id": "grader",
+   "type": "security",
+   "label": "graders.py",
+   "sublabel": "grade_trial()",
+   "sources": [
+    {
+     "path": "src/eval/graders.py",
+     "line": 135,
+     "end_line": 163
+    }
+   ]
+  }
+ ],
+ "segments": [
+  {
+   "from": 172,
+   "to": 262,
+   "label": "1 \u00b7 Prepare isolated workspace"
+  },
+  {
+   "from": 286,
+   "to": 458,
+   "label": "2 \u00b7 Agent loop (\u2264 8 turns, \u2264 $0.05)"
+  },
+  {
+   "from": 482,
+   "to": 578,
+   "label": "3 \u00b7 Grade + persist"
+  }
+ ],
+ "messages": [
+  {
+   "id": "s1",
+   "from": "run",
+   "to": "trial",
+   "y": 192,
+   "label": "copy_task_repo(task_dir, workspace)"
+  },
+  {
+   "id": "s2",
+   "from": "run",
+   "to": "trial",
+   "y": 222,
+   "label": "copy_guidance(harness, candidate_id)",
+   "variant": "emphasis",
+   "note": "baseline \u2192 AGENTS.md \u00b7 candidate \u2192 SKILL.md"
+  },
+  {
+   "id": "s3",
+   "from": "trial",
+   "to": "run",
+   "y": 250,
+   "label": "guidance text",
+   "variant": "return"
+  },
+  {
+   "id": "s4",
+   "from": "run",
+   "to": "agent",
+   "y": 306,
+   "label": "run_agent(workspace, prompt, guidance)",
+   "variant": "emphasis",
+   "note": "--dry-run calls apply_mock_transcript() instead"
+  },
+  {
+   "id": "s5",
+   "from": "agent",
+   "to": "llm",
+   "y": 334,
+   "label": "chat(messages, TOOL_SPECS)",
+   "variant": "emphasis"
+  },
+  {
+   "id": "s6",
+   "from": "llm",
+   "to": "agent",
+   "y": 362,
+   "label": "tool_calls + tokens + cost",
+   "variant": "return"
+  },
+  {
+   "id": "s7",
+   "from": "agent",
+   "to": "ws",
+   "y": 390,
+   "label": "run_tool(read / list / write)"
+  },
+  {
+   "id": "s8",
+   "from": "ws",
+   "to": "agent",
+   "y": 418,
+   "label": "file text \u00b7 'wrote findings.json'",
+   "variant": "return"
+  },
+  {
+   "id": "s9",
+   "from": "agent",
+   "to": "run",
+   "y": 446,
+   "label": "transcript: findings_text, tokens, cost, errors",
+   "variant": "return"
+  },
+  {
+   "id": "s10",
+   "from": "run",
+   "to": "grader",
+   "y": 502,
+   "label": "grade_trial(task_id, workspace, transcript)",
+   "variant": "security",
+   "note": "model grader only for auth-vs-log + caller-check"
+  },
+  {
+   "id": "s11",
+   "from": "grader",
+   "to": "run",
+   "y": 532,
+   "label": "{code_pass, model_pass, pass = code_pass}",
+   "variant": "return"
+  },
+  {
+   "id": "s12",
+   "from": "run",
+   "to": "trial",
+   "y": 562,
+   "label": "write_trial_artifacts(trial_dir, transcript, grade)",
+   "variant": "dashed"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "trial",
+   "from": 187,
+   "to": 256,
+   "type": "backend"
+  },
+  {
+   "participant": "agent",
+   "from": 301,
+   "to": 452,
+   "type": "backend"
+  },
+  {
+   "participant": "llm",
+   "from": 329,
+   "to": 368,
+   "type": "external"
+  },
+  {
+   "participant": "ws",
+   "from": 385,
+   "to": 424,
+   "type": "database"
+  },
+  {
+   "participant": "grader",
+   "from": 497,
+   "to": 538,
+   "type": "security"
+  },
+  {
+   "participant": "trial",
+   "from": 557,
+   "to": 570,
+   "type": "backend"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Inputs \u2192 outputs",
+   "items": [
+    "In: task_id, harness ('baseline'|'candidate'), rep, candidate_id, dry_run",
+    "Out row: {task_id, harness, rep, pass, cost_usd, latency_s, grade, trial_dir}",
+    "Loop ends when the model stops calling tools, a turn errors, or budget > $0.05"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "System prompt actually sent",
+   "items": [
+    "guidance + \"\\n\\nYou must use tools to inspect the repo and write findings.json.\"",
+    "User message = tasks/<id>/prompt.txt",
+    "temperature 0.2 \u00b7 max_tokens 2048 \u00b7 tool_choice auto"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Grading call",
+   "items": [
+    "grade_code(): pytest for keep-suite, heldout/expected.json for others",
+    "grade_model_rubric(): one non-tool OpenRouter call (evidence only)",
+    "out['pass'] = code['code_pass'] \u2014 the model never decides PASS"
+   ]
+  }
+ ]
+}

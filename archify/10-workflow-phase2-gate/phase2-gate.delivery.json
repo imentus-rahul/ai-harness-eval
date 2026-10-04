@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "126cff74-49ec-42d1-b77d-e12ff36192f9",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/10-workflow-phase2-gate/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/10-workflow-phase2-gate/phase2-gate.html",
+  "specification": {
+    "sha256": "1b5b2ca0a95d74ccf07ad6f35318be36d448b26c81a613631ae823812f7a0608",
+    "bytes": 6286
+  },
+  "artifact": {
+    "sha256": "d9cff75333d48761067f5973d710c7ce4d7271c37629a027aff65f6f17f3bce6",
+    "bytes": 762655
+  }
+}

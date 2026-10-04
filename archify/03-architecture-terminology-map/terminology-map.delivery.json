@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "7b85d4c7-6a78-4913-b0ce-860db4b0619b",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/03-architecture-terminology-map/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/03-architecture-terminology-map/terminology-map.html",
+  "specification": {
+    "sha256": "e62a7a1d96a702b486226034033fdd8249a7f0e554b170ae2ffffa36c780f4dc",
+    "bytes": 8023
+  },
+  "artifact": {
+    "sha256": "503ee45118a60e5c0ed1e859e3d466c71a051cb3d647d4f34bb65e54e5ce0937",
+    "bytes": 771455
+  }
+}

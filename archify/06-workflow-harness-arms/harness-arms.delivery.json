@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "7e860b05-ff81-4ea1-ad9c-cc10aa0ddf00",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/06-workflow-harness-arms/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/06-workflow-harness-arms/harness-arms.html",
+  "specification": {
+    "sha256": "b6861a6b7cb2ffa1d9a29b79fd82bd09c904372b4a510939abe641eeb8430b47",
+    "bytes": 7374
+  },
+  "artifact": {
+    "sha256": "5a50df1dc09785c8378c037158d8ddf568a97731d26f9afe620f279ebb6f6224",
+    "bytes": 773935
+  }
+}

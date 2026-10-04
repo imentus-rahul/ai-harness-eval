@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "4b461483-b227-41c7-b68f-32f85571a0f5",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/02-workflow-runtime-journey/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/02-workflow-runtime-journey/runtime-journey.html",
+  "specification": {
+    "sha256": "6331f77dd3da79c02e21a56a3c014fd8c34e49edac007d1fae6a73cb5050b61e",
+    "bytes": 9671
+  },
+  "artifact": {
+    "sha256": "fee8126fb5b86b321e1d7284aa5790a120c9ae421eb86b4848b464e5f069ba48",
+    "bytes": 775305
+  }
+}

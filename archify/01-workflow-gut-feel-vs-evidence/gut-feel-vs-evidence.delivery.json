@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "0dc5646f-0e3e-4c4c-a1da-e8816b3ed74d",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/01-workflow-gut-feel-vs-evidence/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/01-workflow-gut-feel-vs-evidence/gut-feel-vs-evidence.html",
+  "specification": {
+    "sha256": "7a147f52bbcb3a77a6a6718fe79f857ce6903a0d95edaf8f839213bbdecc95c7",
+    "bytes": 4540
+  },
+  "artifact": {
+    "sha256": "21acd41c50eeebdaa951a31829abd1b9d1aeddada288000b3ff82eeecaaf6a49",
+    "bytes": 759997
+  }
+}

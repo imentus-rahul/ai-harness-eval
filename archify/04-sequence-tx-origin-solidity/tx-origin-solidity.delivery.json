@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "cf1622cc-7e19-43fa-9145-6a6258de9639",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/home/leo/Pictures/delete/submission-improved/archify/04-sequence-tx-origin-solidity/candidate.json",
+  "output": "/home/leo/Pictures/delete/submission-improved/archify/04-sequence-tx-origin-solidity/tx-origin-solidity.html",
+  "specification": {
+    "sha256": "7fa92bdc66c21cb11a7dc7331bf698f1a2bf32845bb0f230ce8282d899f799d3",
+    "bytes": 4801
+  },
+  "artifact": {
+    "sha256": "0862c801ede8702ee3f61c0b50aefe92329287bd433b4aa6df02fb39d5670c6e",
+    "bytes": 757188
+  }
+}

@@ -1,0 +1,324 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "11 \u00b7 Bad candidate journey \u2014 blocked before Phase 2",
+  "output": "archify/11-workflow-bad-candidate-journey/bad-candidate-journey.html",
+  "quality_profile": "showcase",
+  "legend": {
+   "mode": "hidden"
+  },
+  "repository": {
+   "url": "https://github.com/imentus-rahul/ai-harness-eval.git",
+   "link_mode": "local-only",
+   "revision": "6dbb7b6139759663b4e9f29ecbc0ecbd54cb8ebb"
+  }
+ },
+ "lanes": [
+  {
+   "id": "auth",
+   "label": "Phase 1 \u00b7 auth-vs-log (capability)"
+  },
+  {
+   "id": "keep",
+   "label": "Phase 1 \u00b7 keep-suite (regression)"
+  },
+  {
+   "id": "dec",
+   "label": "Compare \u2192 graduate \u2192 gate",
+   "variant": "exception"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-arms",
+   "label": "Arms (2 reps each)",
+   "fromCol": 0,
+   "toCol": 1
+  },
+  {
+   "id": "ph-cmp",
+   "label": "Transition",
+   "fromCol": 2,
+   "toCol": 2,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-dec",
+   "label": "Decision",
+   "fromCol": 3,
+   "toCol": 5,
+   "variant": "security"
+  }
+ ],
+ "mainPath": [
+  "kc",
+  "ktr",
+  "verdict",
+  "promote",
+  "gate"
+ ],
+ "nodes": [
+  {
+   "id": "ab",
+   "lane": "auth",
+   "col": 0,
+   "type": "security",
+   "label": "Baseline FAIL \u00d72",
+   "sublabel": "logTransfer flagged (FP)",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/baseline/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "ac",
+   "lane": "auth",
+   "col": 1,
+   "type": "security",
+   "label": "Candidate FAIL \u00d72",
+   "sublabel": "missing finding: withdraw",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/candidate/trials/auth-vs-log/0/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "atr",
+   "lane": "auth",
+   "col": 2,
+   "type": "frontend",
+   "label": "UNCHANGED",
+   "sublabel": "FAIL \u2192 FAIL",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/comparison/result.json",
+     "line": 12,
+     "end_line": 27
+    }
+   ]
+  },
+  {
+   "id": "rub",
+   "lane": "auth",
+   "col": 4,
+   "type": "external",
+   "label": "Model rubric PASS \u00d72",
+   "sublabel": "fooled \u00b7 ignored for pass",
+   "tag": "model_disagreements 2",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/candidate/trials/auth-vs-log/1/grade.json",
+     "line": 1,
+     "end_line": 8
+    }
+   ]
+  },
+  {
+   "id": "kb",
+   "lane": "keep",
+   "col": 0,
+   "type": "backend",
+   "label": "Baseline PASS \u00d72",
+   "sublabel": "pytest 2 passed",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/baseline/trials/keep-suite/0/grade.json",
+     "line": 1,
+     "end_line": 5
+    }
+   ]
+  },
+  {
+   "id": "kc",
+   "lane": "keep",
+   "col": 1,
+   "type": "security",
+   "label": "Candidate FAIL \u00d72",
+   "sublabel": "config.py \u2192 99.0.0 / 0",
+   "tag": "skill: 'harden config'",
+   "width": 164,
+   "sources": [
+    {
+     "path": "mocks/bad-candidate/keep-suite/overlay/app/config.py",
+     "line": 1,
+     "end_line": 4
+    },
+    {
+     "path": "harnesses/bad-candidate/SKILL.md",
+     "line": 8,
+     "end_line": 11
+    }
+   ]
+  },
+  {
+   "id": "ktr",
+   "lane": "keep",
+   "col": 2,
+   "type": "security",
+   "label": "REGRESSED",
+   "sublabel": "PASS \u2192 FAIL",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/comparison/result.json",
+     "line": 28,
+     "end_line": 42
+    }
+   ]
+  },
+  {
+   "id": "verdict",
+   "lane": "dec",
+   "col": 3,
+   "type": "security",
+   "label": "Phase 1 NEGATIVE",
+   "sublabel": "0 improved \u00b7 1 regressed",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/phase-1/summary.json",
+     "line": 1,
+     "end_line": 9
+    }
+   ]
+  },
+  {
+   "id": "promote",
+   "lane": "dec",
+   "col": 4,
+   "type": "security",
+   "label": "Nothing promoted",
+   "sublabel": "auth-vs-log cand 0/2",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/summary.json",
+     "line": 14,
+     "end_line": 14
+    }
+   ]
+  },
+  {
+   "id": "gate",
+   "lane": "dec",
+   "col": 5,
+   "type": "security",
+   "label": "Phase 2 BLOCKED",
+   "sublabel": "keep-suite regressed",
+   "tag": "caller-check never runs",
+   "width": 164,
+   "sources": [
+    {
+     "path": "output/bad-harness-example/summary.json",
+     "line": 15,
+     "end_line": 16
+    },
+    {
+     "path": "src/eval/gate.py",
+     "line": 12,
+     "end_line": 14
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "from": "ab",
+   "to": "ac",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "ac",
+   "to": "atr",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "ac",
+   "to": "rub",
+   "role": "branch",
+   "variant": "dashed",
+   "label": "same findings.json",
+   "fromSide": "top"
+  },
+  {
+   "from": "kb",
+   "to": "kc",
+   "role": "main",
+   "variant": "dashed"
+  },
+  {
+   "from": "kc",
+   "to": "ktr",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "atr",
+   "to": "verdict",
+   "role": "branch",
+   "fromSide": "right",
+   "toSide": "top"
+  },
+  {
+   "from": "ktr",
+   "to": "verdict",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "verdict",
+   "to": "promote",
+   "role": "main",
+   "variant": "security"
+  },
+  {
+   "from": "promote",
+   "to": "gate",
+   "role": "main",
+   "variant": "security"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "rose",
+   "title": "What the candidate got wrong",
+   "items": [
+    "auth-vs-log: only logTransfer reported; withdraw (the real bug) absent",
+    "keep-suite: rewrote app/config.py although the prompt said do not change it",
+    "Both follow directly from 'patch the contract' and 'harden application config'"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Which grader caught it",
+   "items": [
+    "grade_auth_expected: 'missing finding for withdraw' \u2192 FAIL",
+    "grade_keep_suite: pytest 'assert 0 == 3', API_VERSION '99.0.0' \u2192 FAIL",
+    "Model rubric said PASS \u2014 code grader is authoritative, so it changed nothing"
+   ]
+  },
+  {
+   "dot": "violet",
+   "title": "Hypothetical analogy (NOT in this repo)",
+   "items": [
+    "Same failure could follow switching to a stronger model, a 'fantastic' new skill, or an MCP server that floods context",
+    "A better model inside a misleading harness can still reason its way to the wrong edit",
+    "The gate judges outcomes, not how impressive the change sounds"
+   ]
+  }
+ ]
+}
